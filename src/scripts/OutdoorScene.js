@@ -19,8 +19,8 @@ export default class OutdoorScene {
     }
 
     async initScene() {
-        this.tomb = await this.loader.loadModel('../../assets/models/tomb_lowPoly.glb', this.scene);
-        this.sand = await this.loader.loadModel('../../assets/models/sand_lowPoly.glb', this.scene);
+        this.tomb = await this.loader.loadModel('models/tomb_lowPoly.glb', this.scene);
+        this.sand = await this.loader.loadModel('models/sand_lowPoly.glb', this.scene);
 
         this.tomb.traverse((child) => {
             if (child.isMesh) {
