@@ -31,4 +31,6 @@ export default class Camera {
     updateCameraTarget() {
         this.camera.lookAt(this.cameraTarget.position);
     }
+
+    
 }

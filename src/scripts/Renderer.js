@@ -8,6 +8,7 @@ export default class Renderer {
     constructor() {
         this.renderer = new WebGLRenderer();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.outputColorSpace = SRGBColorSpace;
         this.renderer.toneMapping = ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.0;
@@ -30,5 +31,13 @@ export default class Renderer {
 
     render() {
         this.composer.render();
+    }
+
+    getDOM() {
+        return this.renderer.domElement;
+    }
+
+    setSize(width, height) {
+        this.renderer.setSize(width, height);
     }
 }

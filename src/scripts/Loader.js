@@ -1,4 +1,5 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { CubeTextureLoader, TextureLoader } from 'three';
 
 export default class Loader {
     constructor() {
@@ -17,5 +18,24 @@ export default class Loader {
             } 
         });
         return gltf.scene;
+    }
+
+    loadCubeTexture(filepath) {
+        return new CubeTextureLoader().load([
+            filepath + '/right.png',
+            filepath + '/left.png',
+            filepath + '/top.png',
+            filepath + '/bottom.png',
+            filepath + '/front.png',
+            filepath + '/back.png',
+        ],
+        () => console.log('Cubemap loaded'),
+        undefined,
+        (err) => console.error('Cubemap FAILED:', err)
+        )
+    };
+
+    loadTexture(filepath) {
+        return new TextureLoader().load(filepath);
     }
 }
