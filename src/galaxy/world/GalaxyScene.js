@@ -1,4 +1,5 @@
-import {Scene, Clock, Color, Raycaster, Vector2, Vector3} from 'three';
+import {Scene, Clock, Color, Raycaster, Vector2, Vector3, LinearFilter, Line} from 'three';
+import IntroSequence from '../hud/IntroSequence.js';
 import Camera from '../../scripts/Camera.js';
 import Renderer from '../../scripts/Renderer.js';
 import Lighting from '../../scripts/Lighting.js';
@@ -30,12 +31,21 @@ export default class GalaxyScene {
     }
 
     async initScene() {
+        const intro = new IntroSequence();
+        intro.begin(() => {
+            document.getElementById('introScreen').style.opacity = 0;
+        });
+
         this.dean = await this.loader.loadModel('models/dean_lowPoly.glb', this.scene);
 
         this.camera.setPosition(-15, 15, 40);
         this.camera.setTargetPosition(0, 0, 0);
 
-        this.scene.background = new Color(0x0a0a0a);
+        // const tex = this.loader.loadCubeTexture('skybox');
+        // tex.minFilter = LinearFilter;
+        // this.scene.background = this.loader.loadCubeTexture('skybox');
+        // this.scene.background = new Color(0x00061a);
+        this.scene.background = new Color(0x242424);
 
         this.lighting.setSunPosition(-25, 5, 20);
         this.lighting.setSunTarget(3, 0, -5);

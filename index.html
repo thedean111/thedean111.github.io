@@ -7,20 +7,34 @@
     <title>Portfolio</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="global-effect">
+      <div id="app"></div>
 
-    <script type="module" src="/src/main.js"></script>
-    <style>body {
-      margin: 0;
-    }
-    </style>
+      <script type="module" src="/src/main.js"></script>
+      <style>body {
+        margin: 0;
+      }
+      </style>
 
-    <!-- UI Overlay -->
-    <div id='hud'>
-      <div style="position:fixed; left:24px; top:24px;">
-        <span id="testText" class="testText">TEST WORDS, HELLO!</span>
+      <!-- UI Overlay -->
+      <div id='hud'>
+        <div style="position:fixed; left:24px; top:24px;">
+          <span id="testText" class="baseText"></span>
+        </div>
       </div>
-      
+
+      <!-- Intro Screen -->
+      <div id='introScreen' class="introScreen">
+        <span id='introTextTypedWrapper' style="position: absolute; inset: 3%;">
+          <span id='introText' class="baseText" style="font-size:1.5em;"></span>
+        </span>
+        <div id="tvFlash" class="tv-flash"></div>
+      </div>
+
+      <!-- Global Screen-Space Effects -->
+      <div class="pixel-rows"></div>
+      <div class="scanline-overlay"></div>
+      <div class="vignette"></div>
     </div>
   </body>
 </html>
