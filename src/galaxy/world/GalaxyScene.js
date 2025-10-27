@@ -1,27 +1,29 @@
-import {Scene, Clock, Color, Raycaster, Vector2, Vector3, LinearFilter, Line} from 'three';
+import * as THREE from 'three';
 import IntroSequence from '../hud/IntroSequence.js';
 import Camera from '../../scripts/Camera.js';
 import Renderer from '../../scripts/Renderer.js';
 import Lighting from '../../scripts/Lighting.js';
 import Loader from '../../scripts/Loader.js';
 import TextManager from '../hud/TextManager.js';
+import ObjectFrame from '../hud/ObjectFrame.js';
 import { MyGUI } from '../../scripts/MyGUI.js';
 
 export default class GalaxyScene {
     constructor() {
-        this.scene = new Scene();
+        this.scene = new THREE.Scene();
         this.camera = new Camera(this.scene);
         this.lighting = new Lighting(this.scene);
         this.renderer = new Renderer();
         this.renderer.setAnimationLoop(this.update.bind(this));
         this.renderer.setComposerPasses(this.scene, this.camera.getCamera());
         this.loader = new Loader();
-        this.clock = new Clock();
+        this.clock = new THREE.Clock();
         this.gui = new MyGUI();
-        this.raycaster = new Raycaster();
-        this.mouse = new Vector2();
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
         this.txtMgr = new TextManager();
-        this.headRotationSpeed = new Vector3(0, 8, 0);
+        this.framer = new ObjectFrame();
+        this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
 
         this.DEG2RAD = 3.1415 / 180;
 
@@ -31,12 +33,23 @@ export default class GalaxyScene {
     }
 
     async initScene() {
+        this.dean = await this.loader.loadModel('models/dean_lowPoly.glb', this.scene);
+
         const intro = new IntroSequence();
         intro.begin(() => {
             document.getElementById('introScreen').style.opacity = 0;
+            this.framer.setDetails(
+                "D34N-B4DR",
+                "The content right here should be a description about DEAN! I need to find a way to easily write a .json or something so I can just load up these details. Does it make sense to put this all in a string?<br><br> This is me trying a break!"
+            )
+            this.framer.updateDetails = true;
+            this.framer.fitObject(this.dean, this.camera.getCamera());
         });
+        window.addEventListener('resize', (event) => {
+            this.framer.updateDetails = false;
+            this.framer.fitObject(this.dean, this.camera.getCamera());
+        })
 
-        this.dean = await this.loader.loadModel('models/dean_lowPoly.glb', this.scene);
 
         this.camera.setPosition(-15, 15, 40);
         this.camera.setTargetPosition(0, 0, 0);
@@ -45,7 +58,7 @@ export default class GalaxyScene {
         // tex.minFilter = LinearFilter;
         // this.scene.background = this.loader.loadCubeTexture('skybox');
         // this.scene.background = new Color(0x00061a);
-        this.scene.background = new Color(0x242424);
+        this.scene.background = new THREE.Color(0x242424);
 
         this.lighting.setSunPosition(-25, 5, 20);
         this.lighting.setSunTarget(3, 0, -5);
@@ -85,19 +98,17 @@ export default class GalaxyScene {
     }
 
     onLeftMouseClick(event) {
-        const mousePos = new Vector2((event.clientX / window.innerWidth) * 2 - 1,  -(event.clientY / window.innerHeight) * 2 + 1);
-
+        const mousePos = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1,  -(event.clientY / window.innerHeight) * 2 + 1);
+        
         this.raycaster.setFromCamera(mousePos, this.camera.getCamera());
-
+        
         const hits = this.raycaster.intersectObjects(this.scene.children, true);
-
+        
         if (hits.length <= 0) {
-            this.txtMgr.setText(['Oh^500.^500.^500.^1000YOU MISSED!!^500<br>HAHA'], true);
             console.log("No raycast hits");
             return;
         }
-
-        this.txtMgr.setText(['I SHOULD BE TYPING AT THIS POINT!^1500 PLEASE LET ME KNOW IF NOT!'], true);
+        console.log("HIT");
     }
 
     updateCameraResize() {

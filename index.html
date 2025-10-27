@@ -18,8 +18,18 @@
 
       <!-- UI Overlay -->
       <div id='hud'>
-        <div style="position:fixed; left:24px; top:24px;">
-          <span id="testText" class="baseText"></span>
+        <div>
+        <div id='frame-container' class="frame-container">
+          <div  class="frame-corner" style="grid-column: 1; grid-row: 1; justify-self: start; align-self: start; transform: rotateZ(270deg)"></div>
+          <div  class="frame-corner" style="grid-column: 2; grid-row: 1; justify-self: end; align-self: start; transform: rotateZ(0deg)"></div>
+          <div  class="frame-corner" style="grid-column: 1; grid-row: 2; justify-self: start; align-self: end; transform: rotateZ(180deg)"></div>
+          <div  class="frame-corner" style="grid-column: 2; grid-row: 2; justify-self: end; align-self: end; transform: rotateZ(90deg)"></div>
+          <div id="description-container" class="description-container">
+            <span id="description-header" class="baseText descHeader"></span>
+            <span>
+              <span id="description-content" class="baseText"></span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -33,7 +43,7 @@
 
       <!-- Global Screen-Space Effects -->
       <div class="pixel-rows"></div>
-      <div class="scanline-overlay"></div>
+      <div style="position: fixed; inset: 0; overflow: hidden;"> <div class="scanline-overlay"></div> </div>
       <div class="vignette"></div>
     </div>
   </body>
