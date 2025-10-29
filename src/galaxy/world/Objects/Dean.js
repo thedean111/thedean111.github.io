@@ -8,8 +8,8 @@ export default class Dean extends OrbitingObject {
 
         const info = new ObjectInformation({
             simulateOrbit: false,
-            tabLabel: "D43N",
-            header: "D43N-B4DR",
+            tabLabel: "D34N",
+            header: "D34N-B4DR",
             body: "The content right here should be a description about DEAN! I need to find a way to easily write a .json or something so I can just load up these details. Does it make sense to put this all in a string?<br><br> This is me trying a break!",
             modelPath: "models/dean_lowPoly.glb",
             cameraOffset: new Vector3(-15, 15, 40),
