@@ -81,6 +81,7 @@ export default class ObjectTabManager {
             btn.addEventListener('click', () => {
                 // Handle styling for the planet-level tabs
                 if (this.selectedPlanet) {
+                    if (this.selectedPlanet == btn) {return;}
                     this.selectedPlanet.classList.remove('selected-button');
                     this.FadeObject(this.selectedPlanetObj.object, 0);
                     this.FadeObject(p.object, 1);
@@ -160,6 +161,7 @@ export default class ObjectTabManager {
             btn.addEventListener('click', () => {
                 // Handle the tab styling
                 if (this.selectedMoon) {
+                    if (this.selectedMoon == btn) {return;}
                     this.selectedMoon.classList.remove('selected-button');
                     this.FadeObject(m.object, 1);
                     this.FadeObject(this.selectedMoonObj.object, 0);

@@ -175,6 +175,24 @@ export class OrbitingObject {
 
     TurnOff() {
         this.info.simulateOrbit = false;
-        this.object.material.opacity = 0;
+        if (this.object.isMesh && this.object.material) {
+            this.object.material.opacity = 0;
+        }
+
+        const mats = [];
+        this.object.traverse( child => {
+            if (child.isMesh && child.material) {
+                child.material.transparent = true;
+                mats.push(child.material);
+            }
+        });
+
+        if (mats.length == 0) {
+            return;
+        }
+        mats.forEach(m => {
+            m.opacity = 0;
+        })
+        
     }
 }

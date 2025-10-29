@@ -82,11 +82,9 @@ export default class GalaxyScene {
 
         // Work experience
         this.osr = new OSR(this.workPlanet.object);
-        this.scene.add(await this.osr.Initialize(2));
-        this.osr.object.scale.set(0.1, 0.1, 0.1);
+        this.scene.add(await this.osr.Initialize(.2));
         this.clarus = new Clarus(this.workPlanet.object);
         this.scene.add(await this.clarus.Initialize(3.2));
-        this.clarus.object.scale.set(0.1, 0.1, 0.1);
 
         // School projects
         this.cosmicCourier = new CosmicCourier(this.schoolPlanet.object);
