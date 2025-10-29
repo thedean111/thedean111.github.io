@@ -2,7 +2,7 @@ import { PerspectiveCamera, Object3D } from "three";
 
 export default class Camera {
     constructor(scene) {
-        this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
         this.cameraTarget = new Object3D();
 
         scene.add(this.cameraTarget);
@@ -31,4 +31,6 @@ export default class Camera {
     updateCameraTarget() {
         this.camera.lookAt(this.cameraTarget.position);
     }
+
+    
 }

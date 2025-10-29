@@ -3,10 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css">
     <title>Portfolio</title>
   </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+  <body style="overflow:hidden">
+    <div id="global-effect">
+      <div id="app"></div>
+
+      <script type="module" src="/src/main.js" style="pointer-events: none;"></script>
+      <style>body {
+        margin: 0;
+      }
+      </style>
+
+      <!-- UI Overlay -->
+      <div id='hud'>
+        <div id='frame-container' class="frame-container">
+          <div  class="frame-corner" style="grid-column: 1; grid-row: 1; justify-self: start; align-self: start; transform: rotateZ(270deg)"></div>
+          <div  class="frame-corner" style="grid-column: 2; grid-row: 1; justify-self: end; align-self: start; transform: rotateZ(0deg)"></div>
+          <div  class="frame-corner" style="grid-column: 1; grid-row: 2; justify-self: start; align-self: end; transform: rotateZ(180deg)"></div>
+          <div  class="frame-corner" style="grid-column: 2; grid-row: 2; justify-self: end; align-self: end; transform: rotateZ(90deg)"></div>
+          <div id="description-container" class="description-container">
+            <span id="description-header" class="baseText descHeader"></span>
+            <span>
+              <span id="description-content" class="baseText"></span>
+            </span>
+          </div>
+        </div>
+
+        <div id="observed-list-container" class="observed-list-container">
+          <div id="system-container" class="button-list">
+            <button id="system-button" class="observed-item baseText selected-button"> D43N-B4DR </button>
+          </div>
+          <div id="planet-container" class="sub-container button-list">
+          </div>
+          <div id="moon-container" class="sub-container button-list">
+          </div>
+        </div>
+      </div>
+
+      <!-- Intro Screen -->
+      <div id='introScreen' class="introScreen">
+        <span id='introTextTypedWrapper' style="position: absolute; inset: 3%;">
+          <span id='introText' class="baseText" style="font-size:1.5em;"></span>
+        </span>
+        <div id="tvFlash" class="tv-flash"></div>
+      </div>
+
+      <!-- Global Screen-Space Effects -->
+      <div class="pixel-rows"></div>
+      <div style="position: fixed; inset: 0; overflow: hidden; pointer-events: none;"> <div class="scanline-overlay"></div> </div>
+      <div class="vignette"></div>
+    </div>
   </body>
 </html>

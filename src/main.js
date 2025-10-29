@@ -1,4 +1,11 @@
 import OutdoorScene from './scripts/OutdoorScene.js'
+import GalaxyScene from './galaxy/world/GalaxyScene.js';
 
-const outdoorScene = new OutdoorScene();
-outdoorScene.initScene();
+window.addEventListener('DOMContentLoaded', () => {
+    const galaxyScene = new GalaxyScene();
+    galaxyScene.initScene();    
+});
+
+
+// const outdoorScene = new OutdoorScene();
+// outdoorScene.initScene();
