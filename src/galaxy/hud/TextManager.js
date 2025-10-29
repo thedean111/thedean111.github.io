@@ -4,7 +4,7 @@ import Typed from "typed.js"
 export default class TextManager {
     constructor() {
         this.testText = document.getElementById('testText');
-        this.testTyped = null;
+        this.testTyped = {};
     }
 
     setText(elementID, text=[], typeOut=true, showCursor=false, onComplete) {
@@ -15,9 +15,9 @@ export default class TextManager {
         }
 
         // If the same element is getting overwritten, destroy the previous string (and cursor)
-        if (this.testTyped && this.testTyped.elementID == elementID) {
-            this.testTyped.destroy();
-            this.testTyped = null;
+        if (elementID in this.testTyped) {
+            this.testTyped[elementID].destroy();
+            delete this.testTyped[elementID];
         }
 
         // If we don't want to type it out for some reason just 
@@ -26,9 +26,9 @@ export default class TextManager {
             return;
         }
 
-        this.testTyped = new Typed(elementID, {
+        this.testTyped[elementID] = new Typed(elementID, {
             strings: text,
-            typeSpeed: 30,
+            typeSpeed: 10,
             showCursor: showCursor,
             cursorChar: '█',
             onComplete: function() {
@@ -38,5 +38,12 @@ export default class TextManager {
                 }
             }
         });
+    }
+
+    removeText(elementID) {
+        if (elementID in this.testTyped) {
+            this.testTyped[elementID].destroy();
+            delete this.testTyped[elementID];
+        }
     }
 }

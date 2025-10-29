@@ -6,15 +6,15 @@ export default class Loader {
         this.loader = new GLTFLoader();
     }
 
-    async loadModel(filepath, scene) {
-        var gltf = await this.loader.loadAsync(filepath); 
-        scene.add(gltf.scene);
+    async loadModel(filepath) {
+        var gltf = await this.loader.loadAsync(filepath);
         gltf.scene.receiveShadow = true;
         gltf.scene.castShadow = true;
         gltf.scene.traverse((child) => {
             if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.transparent = true;
             } 
         });
         return gltf.scene;

@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="./src/style.css">
     <title>Portfolio</title>
   </head>
-  <body>
+  <body style="overflow:hidden">
     <div id="global-effect">
       <div id="app"></div>
 
-      <script type="module" src="/src/main.js"></script>
+      <script type="module" src="/src/main.js" style="pointer-events: none;"></script>
       <style>body {
         margin: 0;
       }
@@ -18,7 +18,6 @@
 
       <!-- UI Overlay -->
       <div id='hud'>
-        <div>
         <div id='frame-container' class="frame-container">
           <div  class="frame-corner" style="grid-column: 1; grid-row: 1; justify-self: start; align-self: start; transform: rotateZ(270deg)"></div>
           <div  class="frame-corner" style="grid-column: 2; grid-row: 1; justify-self: end; align-self: start; transform: rotateZ(0deg)"></div>
@@ -29,6 +28,16 @@
             <span>
               <span id="description-content" class="baseText"></span>
             </span>
+          </div>
+        </div>
+
+        <div id="observed-list-container" class="observed-list-container">
+          <div id="system-container" class="button-list">
+            <button id="system-button" class="observed-item baseText selected-button"> D43N-B4DR </button>
+          </div>
+          <div id="planet-container" class="sub-container button-list">
+          </div>
+          <div id="moon-container" class="sub-container button-list">
           </div>
         </div>
       </div>
@@ -43,7 +52,7 @@
 
       <!-- Global Screen-Space Effects -->
       <div class="pixel-rows"></div>
-      <div style="position: fixed; inset: 0; overflow: hidden;"> <div class="scanline-overlay"></div> </div>
+      <div style="position: fixed; inset: 0; overflow: hidden; pointer-events: none;"> <div class="scanline-overlay"></div> </div>
       <div class="vignette"></div>
     </div>
   </body>

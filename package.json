@@ -12,6 +12,7 @@
     "vite": "^7.1.7"
   },
   "dependencies": {
+    "gsap": "^3.13.0",
     "lil-gui": "^0.21.0",
     "three": "^0.180.0",
     "typed.js": "^2.1.0"

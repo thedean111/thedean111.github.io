@@ -8,7 +8,7 @@ export default class Renderer {
     constructor() {
         this.renderer = new WebGLRenderer();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setPixelRatio(0.6);
         this.renderer.outputColorSpace = SRGBColorSpace;
         this.renderer.toneMapping = ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.0;
@@ -25,7 +25,6 @@ export default class Renderer {
 
     setComposerPasses(scene, camera) {
         this.composer.addPass(new RenderPass(scene, camera));
-        // this.composer.addPass(new SSAOPass(scene, camera, window.innerWidth, window.innerHeight, 10));
         this.composer.addPass(new OutputPass());
     }
 
