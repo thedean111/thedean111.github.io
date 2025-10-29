@@ -1,5 +1,5 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { CubeTextureLoader, TextureLoader } from 'three';
+import { CubeTextureLoader, FrontSide, TextureLoader } from 'three';
 
 export default class Loader {
     constructor() {
@@ -12,8 +12,8 @@ export default class Loader {
         gltf.scene.castShadow = true;
         gltf.scene.traverse((child) => {
             if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
+                // child.castShadow = true;
+                // child.receiveShadow = true;
                 child.material.transparent = true;
             } 
         });

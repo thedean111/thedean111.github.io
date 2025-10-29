@@ -1,4 +1,4 @@
-import { BoxGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial, Vector3, Vector2 } from 'three'
 import { clamp } from 'three/src/math/MathUtils.js';
 import Loader from '../../../scripts/Loader';
 
@@ -31,6 +31,8 @@ export class ObjectInformation {
         children = [],
         cameraOffset=null,
         effectiveDelta=1,
+        scale=null,
+        frameGap= new Vector2(0, 0),
     } = {}) {
         this.tabLabel = tabLabel;
         this.header = header;
@@ -40,6 +42,8 @@ export class ObjectInformation {
         this.children = children;
         this.cameraOffset = cameraOffset;
         this.effectiveDelta = effectiveDelta;
+        this.scale = scale;
+        this.frameGap = frameGap;
     }
 }
 
@@ -76,6 +80,11 @@ export class OrbitingObject {
         } else {
             this.object = await new Loader().loadModel(this.info.modelPath);
         }
+
+        if (this.info.scale != null) {
+            this.object.scale.set(this.info.scale.x, this.info.scale.y, this.info.scale.z);
+        }
+
         return this.object;
     }
 

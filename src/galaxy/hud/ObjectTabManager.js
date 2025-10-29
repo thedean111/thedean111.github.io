@@ -40,6 +40,7 @@ export default class ObjectTabManager {
             // All planets resume movement
             this.planets.forEach(p => {
                 p.info.simulateOrbit = true;
+                this.FadeObject(p.object, 1);
                 gsap.to(p, {
                     deltaScale: p.info.effectiveDelta, 
                     duration: 1.5, 
@@ -47,7 +48,6 @@ export default class ObjectTabManager {
             });
             if (this.selectedPlanet) {
                 this.selectedPlanet.classList.remove('selected-button');
-                this.FadeObject(this.selectedPlanetObj.object, 1);
                 this.selectedPlanet = null;
             }
 
@@ -84,6 +84,21 @@ export default class ObjectTabManager {
                     this.selectedPlanet.classList.remove('selected-button');
                     this.FadeObject(this.selectedPlanetObj.object, 0);
                     this.FadeObject(p.object, 1);
+                } else {
+                    ps.forEach(p1 => {
+                        if (p1 != p) {
+                            this.FadeObject(p1.object, 0);
+                        }
+    
+                        gsap.to(p1, {
+                            deltaScale: 0, 
+                            duration: 1, 
+                            ease: "expo.out", 
+                            onComplete: () => {
+                                p1.info.simulateOrbit = false;
+                            },
+                        });
+                    });
                 }
 
                 btn.classList.add('selected-button');

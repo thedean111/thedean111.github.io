@@ -32,7 +32,7 @@ export default class IntroSequence {
             '> Activity-B4DR 1900.65.69<br>>> ' + date + '<br>>> ' + time + '^750<br>>^100<br>>^100<br>' + 
             '> Approaching Subsystem:^250<br>>> name-<br>>> D34N-B4DR<br>>^250<br>>> type- <br>>> P0R7F0L10<br>>^250<br>>> GCS- <br>>> <i>l</i> = 08°<br>>> <i>b</i> = 13°<br>>^250<br>' +
             '> Displaying VCam™ 3 video stream^750.^750.^750.^500'
-        ], true, true, () => {
+        ], true, true, 10, () => {
             // Play the text flicker animation when done
             this.wrapper.classList.add('text-off');
         });

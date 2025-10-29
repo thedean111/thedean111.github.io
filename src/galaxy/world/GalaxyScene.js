@@ -66,6 +66,20 @@ export default class GalaxyScene {
         this.personalPlanet = new PersonalPlanet(this.dean.object);
         this.scene.add(await this.personalPlanet.Initialize(3));
 
+        // This is to utilize a shape key of my head instead of exporting another model
+        const morphs = [];
+        this.personalPlanet.object.traverse(o => {
+            if (o.isMesh && o.morphTargetInfluences && o.morphTargetDictionary) {
+                morphs.push(o);
+            }
+        });
+        morphs.forEach(o => {
+            const idx = o.morphTargetDictionary['Smile'];
+            if (idx != undefined) {
+                o.morphTargetInfluences[idx] = 1;
+            }
+        });
+
         // Work experience
         this.osr = new OSR(this.workPlanet.object);
         this.scene.add(await this.osr.Initialize(2));
@@ -153,16 +167,17 @@ export default class GalaxyScene {
 
         // Fire off the introduction sequence. On complete, it will set the focus to my head
         // which will write details about myself to the screen
+        this.framer.setFocus(this.dean, false);
         const intro = new IntroSequence();
         intro.begin(() => {
             document.getElementById('introScreen').style.opacity = 0;
             document.getElementById('introScreen').style.pointerEvents = 'none';
             this.framer.updateDetails = true;
             this.framer.setFocus(this.dean, false);
+            this.framer.container.style.setProperty('--contentWidth', `30vw`);
         });
         window.addEventListener('resize', () => {
-            this.framer.updateDetails = false;
-            this.framer.fitObject(this.dean.object);
+            this.framer.updateFrameSize();
         })
 
 

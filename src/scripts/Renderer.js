@@ -6,7 +6,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 export default class Renderer {
     constructor() {
-        this.renderer = new WebGLRenderer();
+        this.renderer = new WebGLRenderer({antialias: true, logarithmicDepthBuffer: true,});
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.setPixelRatio(0.6);
         this.renderer.outputColorSpace = SRGBColorSpace;

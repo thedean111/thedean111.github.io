@@ -7,7 +7,7 @@ export default class TextManager {
         this.testTyped = {};
     }
 
-    setText(elementID, text=[], typeOut=true, showCursor=false, onComplete) {
+    setText(elementID, text=[], typeOut=true, showCursor=false, speed=10, onComplete) {
         // For some reason if there is no text, don't do anything
         if (text == null || text == []) {
             console.log('Invalid text input');
@@ -28,7 +28,7 @@ export default class TextManager {
 
         this.testTyped[elementID] = new Typed(elementID, {
             strings: text,
-            typeSpeed: 10,
+            typeSpeed: speed,
             showCursor: showCursor,
             cursorChar: '█',
             onComplete: function() {
