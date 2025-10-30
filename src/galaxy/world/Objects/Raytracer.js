@@ -1,16 +1,16 @@
 import { OrbitParams, ObjectInformation, OrbitingObject } from "./OrbitingObject";
-import {Vector3} from 'three'
+import {Vector3, Vector2} from 'three'
 
 export default class Raytracer extends OrbitingObject {
     // Define all object information here!
     constructor(orbitTarget) {
-        const i = 50;
+        const i = 30;
         const w = 35;
         const params = new OrbitParams({
             inclination: i * (Math.PI / 180),
-            trueAnomaly: 0,
-            eccentricity: 0.1,
-            semimajorAxis: 1,
+            trueAnomaly: 20,
+            eccentricity: 0.7,
+            semimajorAxis: 30,
             raan: 0,
             argPeriapsis: w * (Math.PI / 180)
         });
@@ -19,10 +19,12 @@ export default class Raytracer extends OrbitingObject {
             simulateOrbit: true,
             tabLabel: "RAYTRACER",
             header: "Raytracing Rendering Engine",
-            body: "Electronics, software, game dev, etc.",
-            modelPath: "",
-            cameraOffset: new Vector3(.2, .1, .2),
+            body: "Tools:<br>Java, Java Processing Library<br><br>This project was completed over the course of a semester, where I was tasked with the guided development of a raytracing 3D rendering engine.<br><br>Included in this engine is the implementation of:<br>- Axis-Aligned Bounding Boxes,<br>- Unlit basic eye/camera rendering,<br>- Bounding volume hierarchy (BVH) optimization,<br>- Lambertian diffuse shading,<br>- Blinn-Phong specular shading,<br>- Anti-aliasing,<br>- Surface reflections,<br>- Motion blur,<br>- Soft/Hard shadows,<br>- Depth of field,<br>- Transparency.",
+            modelPath: "models/raytracing.glb",
+            cameraOffset: new Vector3(5, 1, .25),
             effectiveDelta: 0.5,
+            scale: new Vector3(0.2, 0.2, 0.2),
+            frameGap: new Vector2(16, 30),
         });
 
         super(orbitTarget, info, params);

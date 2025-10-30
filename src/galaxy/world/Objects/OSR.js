@@ -18,7 +18,7 @@ export default class OSR extends OrbitingObject {
         const info = new ObjectInformation({
             simulateOrbit: true,
             tabLabel: "OSR",
-            header: "Odyssey Space Research LLC.",
+            header: "Odyssey Space Research",
             body: "Tools:<br>C++, Git, Python, MATLAB, Trick<br><br>At Odyssey I support the Lockheed Martin team that is contributing to NASA's Orion project. Specifically, I work on C++ models that are designed to emulate guidance, navigation, and control (GNC) behaviors during rendez-vous proximity operations and docking (RPOD).<br><br>These models are used for systems testing, CONOPS evaluation, and astronaut training.",
             modelPath: "models/orion.glb",
             cameraOffset: new Vector3(5, 6, 10),

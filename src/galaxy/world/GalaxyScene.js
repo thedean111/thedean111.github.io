@@ -23,6 +23,9 @@ import StrokeRehab from './Objects/StrokeRehab.js';
 import Raytracer from './Objects/Raytracer.js';
 import PokemonSimulator from './Objects/PokemonSimulator.js';
 import RemindersRedesign from './Objects/RemindersRedesign.js';
+import Info from './Objects/Info.js';
+import About from './Objects/About.js';
+import Attributions from './Objects/Attributions.js';
 
 export default class GalaxyScene {
     constructor() {
@@ -65,6 +68,8 @@ export default class GalaxyScene {
         this.scene.add(await this.schoolPlanet.Initialize(3));
         this.personalPlanet = new PersonalPlanet(this.dean.object);
         this.scene.add(await this.personalPlanet.Initialize(3));
+        this.infoPlanet = new Info(this.dean.object);
+        this.scene.add(await this.infoPlanet.Initialize(3.2));
 
         // This is to utilize a shape key of my head instead of exporting another model
         const morphs = [];
@@ -88,32 +93,37 @@ export default class GalaxyScene {
 
         // School projects
         this.cosmicCourier = new CosmicCourier(this.schoolPlanet.object);
-        this.scene.add(await this.cosmicCourier.Initialize(0));
+        this.scene.add(await this.cosmicCourier.Initialize(0.1));
         this.cosmicCourier.object.scale.set(0.1, 0.1, 0.1);
         this.stroke = new StrokeRehab(this.schoolPlanet.object);
-        this.scene.add(await this.stroke.Initialize(0));
+        this.scene.add(await this.stroke.Initialize(0.3));
         this.stroke.object.scale.set(0.1, 0.1, 0.1);
         this.raytracer = new Raytracer(this.schoolPlanet.object);
-        this.scene.add(await this.raytracer.Initialize(0));
+        this.scene.add(await this.raytracer.Initialize(1.2));
         this.raytracer.object.scale.set(0.1, 0.1, 0.1);
         this.pokemon = new PokemonSimulator(this.schoolPlanet.object);
-        this.scene.add(await this.pokemon.Initialize(0));
+        this.scene.add(await this.pokemon.Initialize(2));
         this.pokemon.object.scale.set(0.1, 0.1, 0.1);
         this.reminders = new RemindersRedesign(this.schoolPlanet.object);
-        this.scene.add(await this.reminders.Initialize(0));
+        this.scene.add(await this.reminders.Initialize(2.8));
         this.reminders.object.scale.set(0.1, 0.1, 0.1);
 
         // Personal
         this.technical = new TechnicalHobbies(this.personalPlanet.object);
-        this.scene.add(await this.technical.Initialize(0));
+        this.scene.add(await this.technical.Initialize(.2));
         this.technical.object.scale.set(0.1, 0.1, 0.1);
         this.creative = new ArtsCrafts(this.personalPlanet.object);
-        this.scene.add(await this.creative.Initialize(0));
+        this.scene.add(await this.creative.Initialize(1));
         this.creative.object.scale.set(0.1, 0.1, 0.1);
         this.memomart = new Memomart(this.personalPlanet.object);
-        this.scene.add(await this.memomart.Initialize(0));
+        this.scene.add(await this.memomart.Initialize(2.5));
         this.memomart.object.scale.set(0.1, 0.1, 0.1);
 
+        // Info
+        this.about = new About(this.infoPlanet.object);
+        this.scene.add(await this.about.Initialize(2));
+        this.attributions = new Attributions(this.infoPlanet.object);
+        this.scene.add(await this.attributions.Initialize(1));
 
         // Define the parent-child relationships
         this.workPlanet.info.children = [
@@ -132,6 +142,10 @@ export default class GalaxyScene {
             this.creative,
             this.memomart
         ];
+        this.infoPlanet.info.children = [
+            this.about,
+            this.attributions
+        ];
 
         // Turn off all the moons
         this.workPlanet.info.children.forEach(c => {
@@ -146,6 +160,10 @@ export default class GalaxyScene {
             c.TurnOff();
             this.objects.push(c);
         });
+        this.infoPlanet.info.children.forEach(c => {
+            c.TurnOff();
+            this.objects.push(c);
+        });
 
 
         // Add all objects to the array for updating
@@ -153,10 +171,11 @@ export default class GalaxyScene {
         this.objects.push(this.workPlanet);
         this.objects.push(this.schoolPlanet);
         this.objects.push(this.personalPlanet);
+        this.objects.push(this.infoPlanet);
 
         // Initial ui setup now that the objects are created
         this.tabManager.SetSystem(this.dean);
-        this.tabManager.SetPlanets([this.workPlanet, this.schoolPlanet, this.personalPlanet]);
+        this.tabManager.SetPlanets([this.workPlanet, this.schoolPlanet, this.personalPlanet, this.infoPlanet]);
         //=================================================================
 
         // Make sure the camera forcible starts where we want it
