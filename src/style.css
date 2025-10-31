@@ -1,7 +1,8 @@
 .baseText{
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-weight: 600;
-  font-size: 1vw;
+  font-size: clamp(1.2em, 1vw, 1.8em);
+  
   letter-spacing: 0.06em;
   color: #c9ffd1;
   text-shadow: 0 0 2px #6aff86, 0 0 8px rgba(106, 255, 134, .35);
@@ -85,7 +86,7 @@
   /* inset: 0; */
   width: 100vw;
   height: 100vh;
-  overflow: auto;
+  overflow: none;
   perspective: 1800px;
   transform: rotateX(2deg) rotateY(2deg);
   transform-origin: 50% 50%;
@@ -198,7 +199,6 @@
   right: calc(-1.1 * var(--contentWidth));
   display: flex; 
   flex-direction: column;
-
   transition-duration: 250ms;
 }
 
@@ -208,17 +208,21 @@
   width: 100%;
   border-bottom: 2px solid #c9ffd1;
   margin-bottom: 10px;
-  font-size: 2vw;
+  font-size: clamp(26px, 1.5vw, 3.5vw);
   align-content: end;
 }
 
 .descContent {
-  width: 100%;
+  /* width: 100%; */
   height: 50vh;
   overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
+
   scrollbar-width: auto;
-  /* scroll-behavior: smooth; */
+  scrollbar-color: #c9ffd1 rgba(0,0,0,0) ;
+  border: solid #c9ffd1 2px;
+  padding: 25px;
+  box-sizing: border-box;
 }
 
 .observed-list-container {
@@ -229,7 +233,7 @@
   bottom: 0px;
   left: 0px;
   width: fit-content;
-  min-width: 135px;
+  /* min-width: 135px; */
   height: auto;
 }
 
@@ -237,7 +241,7 @@
   position: relative;
   background-color: rgba(0, 0, 0, 0);
   text-align: left;
-  font-size: clamp(1.5em, 1.5vw, 3em);
+  font-size: clamp(1em, 1.5vw, 3em);
   border-width: 4px;
   border-color: rgba(0, 0, 0, 0);
   background-clip: padding-box;

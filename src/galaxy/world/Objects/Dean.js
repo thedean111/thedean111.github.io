@@ -10,7 +10,7 @@ export default class Dean extends OrbitingObject {
             simulateOrbit: false,
             tabLabel: "D34N",
             header: "D34N-B4DR",
-            body: "Welcome to my solar system--explore the system by clicking the tabs in the bottom left! ",
+            body: "Welcome to my solar system--explore by clicking the tabs in the bottom left! ",
             modelPath: "models/dean_lowPoly.glb",
             cameraOffset: new Vector3(-65, 65, 200),
             scale: new Vector3(6, 6, 6),

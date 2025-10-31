@@ -22,6 +22,7 @@ export default class ObjectTabManager {
     // Sets the data for the root of the experience (my head)
     SetSystem(systemObj) {
         this.systemObj = systemObj;
+        this.systemBtn.textContent = systemObj.info.tabLabel;
         this.systemBtn.addEventListener('click', () => {
             this.frame.updateDetails = true;
             this.frame.setFocus(this.systemObj);

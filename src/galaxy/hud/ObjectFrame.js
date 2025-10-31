@@ -4,12 +4,13 @@ import { gsap } from "gsap"
 import TextManager from './TextManager';
 
 export default class ObjectFrame {
-    constructor(camera) {
+    constructor(camera, sun) {
         this.frame = document.getElementById("frame-container");
         this.header = document.getElementById("description-header");
         this.content = document.getElementById("description-content");
         this.container = document.getElementById("description-container");
         this.camera = camera;
+        this.sun = sun;
         this.textMgr = new TextManager();
         this.headerTxt = "";
         this.bodyTxt = "";
@@ -36,6 +37,7 @@ export default class ObjectFrame {
         this.frame.addEventListener('transitionend', () => {
             if (this.updateDetails) {
                 this.container.style.setProperty('--contentWidth', `30vw`);
+                this.container.style.opacity = 1;
             }
         });
 
@@ -94,6 +96,7 @@ export default class ObjectFrame {
 
     closeDetails() {
         this.container.style.setProperty('--contentWidth', `0vw`);
+        this.container.style.opacity = 0;
     }
 
     updateFrameSize() {
@@ -121,6 +124,7 @@ export default class ObjectFrame {
         this.textMgr.removeText('#description-header');
         this.textMgr.removeText('#description-content');
         this.container.style.setProperty('--contentWidth', `0vw`);
+        this.container.style.opacity = 0
         this.frame.style.setProperty('--gapX', `0px`);
         this.frame.style.setProperty('--gapY', `0px`);
 
@@ -133,12 +137,16 @@ export default class ObjectFrame {
         t1.add(this.focusedObject.object.position);
         t1.add(this.focusedObject.info.cameraOffset);
         const gap = this.focusedObject.info.frameGap;
+        this.sun.target.position.set(this.focusedObject.object.position.x, this.focusedObject.object.position.y, this.focusedObject.object.position.z);
         gsap.to(this.camera.position, {
             x: t1.x,
             y: t1.y,
             z: t1.z,
             duration: 1.75,
             ease: "sine.Out",
+            onUpdate: () => {
+                this.sun.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+            },
             onComplete: () => {
                 const t2 = new THREE.Vector3();
                 t2.add(this.focusedObject.object.position);
@@ -149,8 +157,12 @@ export default class ObjectFrame {
                     z: t2.z,
                     duration: 0.75,
                     ease: "sine.inOut",
+                    onUpdate: () => {
+                        this.sun.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+                    },
                     onComplete: () => {
                         this.updateDetails = this.tmpUpdateDetails;
+                        this.sun.target.position.set(this.focusedObject.object.position.x, this.focusedObject.object.position.y, this.focusedObject.object.position.z);
                         this.frame.style.setProperty('--gapX', `${gap.x}vw`);
                         this.frame.style.setProperty('--gapY', `${gap.y}vh`);
                         // this.fitObject(this.focusedObject.object);

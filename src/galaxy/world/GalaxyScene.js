@@ -40,7 +40,7 @@ export default class GalaxyScene {
         // this.gui = new MyGUI();
         this.mouse = new THREE.Vector2();
         this.txtMgr = new TextManager();
-        this.framer = new ObjectFrame(this.camera.getCamera());
+        this.framer = new ObjectFrame(this.camera.getCamera(), this.lighting.getSun());
         this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
         this.objects = [];
         this.focusedObject = null;
@@ -207,8 +207,8 @@ export default class GalaxyScene {
 
         this.lighting.setSunPosition(-25, 5, 20);
         this.lighting.setSunTarget(3, 0, -5);
-        this.lighting.setSun(0xF0DC00, 2.5)
-        this.lighting.setAmbient(0xFFFFFF, .8);
+        this.lighting.setSun(0xFFFFFF, 2)
+        this.lighting.setAmbient(0xFFFFFF, .5);
 
         // // GUI
         // let ambientGroup = this.gui.makeFolder('Ambient Light');
