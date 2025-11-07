@@ -5,7 +5,3 @@ window.addEventListener('DOMContentLoaded', () => {
     const galaxyScene = new GalaxyScene(false);
     galaxyScene.initScene();    
 });
-
-
-// const outdoorScene = new OutdoorScene();
-// outdoorScene.initScene();
