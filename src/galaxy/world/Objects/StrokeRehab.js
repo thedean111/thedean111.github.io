@@ -18,7 +18,7 @@ export default class StrokeRehab extends OrbitingObject {
         const info = new ObjectInformation({
             simulateOrbit: true,
             tabLabel: "REHABILITATION",
-            header: "Haptic Rehabilitation Companion App",
+            header: "Haptic Rehabilitation App",
             tools: "Unity, C#, Figma, Android Studio, Java, Google MediaPipe",
             role: "Game Developer (Software, UI)",
             summary: "Gesture-based game that is designed to assist in the rehabilitation of stroke survivors. Contributed to an existing Android Studio and Unity development environment that implemented Google MediaPipe's gesture recognition model.",

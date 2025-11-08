@@ -286,7 +286,7 @@
 .description-container {
   position: absolute;
   width: var(--contentWidth);
-  height: 70vh;
+  height: 30vh;
   top: -20px;
   right: calc(-1.1 * var(--contentWidth));
   display: flex; 

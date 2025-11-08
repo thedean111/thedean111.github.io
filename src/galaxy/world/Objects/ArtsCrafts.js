@@ -22,7 +22,7 @@ export default class ArtsCrafts extends OrbitingObject {
             summary: "Fun projects I have pursued in my free time that have made for great gifts and pleasant decorations.",
             body: "Part of my creative nature includes dabbling in more straightforward arts and crafts. Compared to the technical projects I tend to pursue, these provide a nice sense of satisfaction and a medium to exercise my creativity.<br><br>These crafts can range from painting on a canvas, to crochet, to woodworking; some of my favorite projects are:<br>- A custom made dart board cabinet,<br>- Handmade cutting boards from cherry hardwood,<br>- Crocheted pokemon,<br>- Lifesize Master Sword from the Legend of Zelda.",
             modelPath: "models/artsCrafts.glb",
-            cameraOffset: new Vector3(5, 4, 8),
+            cameraOffset: new Vector3(5, 1, .2),
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),

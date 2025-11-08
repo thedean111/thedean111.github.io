@@ -18,7 +18,7 @@ export default class RemindersRedesign extends OrbitingObject {
         const info = new ObjectInformation({
             simulateOrbit: true,
             tabLabel: "REMINDERS",
-            header: "IOS Reminders Application Redesign",
+            header: "IOS Reminders Redesign",
             role: "UI/UX Researcher & Designer",
             tools: "Figma",
             summary: "A human-computer interaction design lifecycle learning experience through a redesign of the iOS Reminders application.",
