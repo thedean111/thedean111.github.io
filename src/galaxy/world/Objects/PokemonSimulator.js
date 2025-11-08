@@ -19,12 +19,16 @@ export default class PokemonSimulator extends OrbitingObject {
             simulateOrbit: true,
             tabLabel: "POKEMON",
             header: "Pokemon Battle Simulator Web App",
-            body: "Tools:<br>React, Docker, Java, Spring, Figma, PostgreSQL<br><br>In this project my team developed a Pokemon battle simulator web application. This is a containerized projects that communicates through web sockets on a local device.<br><br>My main contributions to this project were on the front-end work, which includes the design and development of the interface using Figma and React.<br><br>This was my first experience with web apis, authentication, and containerized microservices.",
+            tools: "React, Docker, Java, Spring, Figma, Postgres",
+            role: "Front End Designer & Developer, Software Architect",
+            summary: "A simple web application that abstractly simulated Pokemon battles. Its built with containerized Docker services and is implemented with a React/Java tech stack.",
+            body: "In this project my team developed a Pokemon battle simulator web application as part of a graduate course. This project required formal system architecting and web app development.<br><br>My contributions to this project include:<br>- UML diagram development (class and sequence),<br>- UI design in Figma,<br>- Front end implementation using React.js,<br>- Postgres database schema design,<br>- Assistance with back-end domain logic.",
             modelPath: "models/pokeball.glb",
             cameraOffset: new Vector3(5, 1, .25),
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
+            galleryName: "pokemon",
         });
 
         super(orbitTarget, info, params);

@@ -14,6 +14,7 @@
   "dependencies": {
     "gsap": "^3.13.0",
     "lil-gui": "^0.21.0",
+    "swiper": "^12.0.3",
     "three": "^0.180.0",
     "typed.js": "^2.1.0"
   }

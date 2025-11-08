@@ -8,7 +8,8 @@ import TextManager from '../hud/TextManager.js';
 import ObjectFrame from '../hud/ObjectFrame.js';
 import { MyGUI } from '../../scripts/MyGUI.js';
 import ObjectTabManager from '../hud/ObjectTabManager.js';
-
+import DropdownManager from '../hud/DropdownManager.js';
+import Telemetry from '../hud/Telemetry.js';
 import Dean from './Objects/Dean.js';
 import WorkPlanet from './Objects/WorkPlanet.js';
 import SchoolPlanet from './Objects/SchoolPlanet.js'
@@ -28,7 +29,7 @@ import About from './Objects/About.js';
 import Attributions from './Objects/Attributions.js';
 
 export default class GalaxyScene {
-    constructor() {
+    constructor(playIntro) {
         this.scene = new THREE.Scene();
         this.camera = new Camera(this.scene);
         this.lighting = new Lighting(this.scene);
@@ -43,12 +44,21 @@ export default class GalaxyScene {
         this.framer = new ObjectFrame(this.camera.getCamera(), this.lighting.getSun());
         this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
         this.objects = [];
-        this.focusedObject = null;
         this.tabManager = new ObjectTabManager(this.framer);
+        this.dropdownManager = new DropdownManager();
+        this.tlm = new Telemetry();
+
         this.DEG2RAD = 3.1415 / 180;
+        this.playIntro = playIntro;
 
         // EVENTS
         window.addEventListener('resize', this.updateCameraResize.bind(this))
+
+        document.getElementById("toggle-tlm-button").addEventListener("click", (evt) => {
+            evt.target.blur();
+            this.tlm.tlmContainer.classList.toggle("hidden");
+            this.tlm.setContent(this.framer.focusedObject.info);
+        });
     }
 
     // Create the whole scene :)
@@ -59,7 +69,6 @@ export default class GalaxyScene {
         // My head, the center of the system
         this.dean = new Dean();
         this.scene.add(await this.dean.Initialize(0));
-        this.focusedObject = this.dean;
         
         // The planets (categories of experience)
         this.workPlanet = new WorkPlanet(this.dean.object);        
@@ -126,6 +135,12 @@ export default class GalaxyScene {
         this.scene.add(await this.attributions.Initialize(1));
 
         // Define the parent-child relationships
+        this.dean.info.children = [
+            this.workPlanet,
+            this.schoolPlanet,
+            this.personalPlanet,
+            this.infoPlanet
+        ];
         this.workPlanet.info.children = [
             this.osr,
             this.clarus
@@ -175,7 +190,9 @@ export default class GalaxyScene {
 
         // Initial ui setup now that the objects are created
         this.tabManager.SetSystem(this.dean);
-        this.tabManager.SetPlanets([this.workPlanet, this.schoolPlanet, this.personalPlanet, this.infoPlanet]);
+        this.tabManager.SetPlanets(this.dean.info.children);
+        this.dropdownManager.setFocusedObject(this.dean);
+        this.tlm.buildNavigation(this.dean);
         //=================================================================
 
         // Make sure the camera forcible starts where we want it
@@ -185,19 +202,27 @@ export default class GalaxyScene {
         // Fire off the introduction sequence. On complete, it will set the focus to my head
         // which will write details about myself to the screen
         this.framer.setFocus(this.dean, false);
-        const intro = new IntroSequence();
-        intro.begin(() => {
-            document.getElementById('introScreen').style.opacity = 0;
-            document.getElementById('introScreen').style.pointerEvents = 'none';
-            this.framer.updateDetails = true;
-            this.framer.setFocus(this.dean, false);
-            this.framer.container.style.setProperty('--contentWidth', `30vw`);
-        });
+        if (this.playIntro) {
+            const intro = new IntroSequence();
+            intro.begin(() => {
+                document.getElementById('introScreen').style.opacity = 0;
+                document.getElementById('introScreen').style.pointerEvents = 'none';
+                this.framer.updateDetails = true;
+                this.framer.setFocus(this.dean, false);
+                this.framer.container.style.setProperty('--contentWidth', `30vw`);
+            });
+        } else {
+                document.getElementById('introScreen').style.opacity = 0;
+                document.getElementById('introScreen').style.pointerEvents = 'none';
+                this.framer.updateDetails = true;
+                this.framer.setFocus(this.dean, false);
+                this.framer.container.style.setProperty('--contentWidth', `30vw`);
+        }
+
+        // Resize event
         window.addEventListener('resize', () => {
             this.framer.updateFrameSize();
-        })
-
-
+        });
 
         // const tex = this.loader.loadCubeTexture('skybox');
         // tex.minFilter = LinearFilter;

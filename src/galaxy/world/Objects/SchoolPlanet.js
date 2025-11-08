@@ -19,6 +19,7 @@ export default class SchoolPlanet extends OrbitingObject {
             simulateOrbit: true,
             tabLabel: "SCHOOL",
             header: "SCHOOL PROJECTS",
+            summary: "Earned:<br>-Bachelors of Science in Aerospace Engineering<br>-Minor in Computing and Devices<br><br>In Progress:<br>-Masters of Science in Computer Science (Human-Computer Interaction)",
             body: "Earned:<br>-Bachelors of Science in Aerospace Engineering<br>-Minor in Computing and Devices<br><br>In Progress:<br>-Masters of Science in Computer Science (Human-Computer Interaction)<br><br>This content provides an overview of my most substantial school projects. Each of these projects has helped my technical abilities grow, and has deepened my understanding of software development.",
             modelPath: "models/georgiaTech.glb",
             cameraOffset: new Vector3(-15, 10, 25),

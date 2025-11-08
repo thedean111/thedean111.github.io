@@ -18,6 +18,54 @@
 
       <!-- UI Overlay -->
       <div id='hud'>
+
+        <!-- Telemetry screen element -->
+        <div id="tlm-container" class="tlm-default hidden">
+
+          <!-- Navigation -->
+          <div id="tlm-navigation-container">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+              <div class="baseText" style="font-size: 2vw">TELEMETRY</div>
+              <button id="exit-tlm-button" class="exit-button baseText">X</button>
+            </div>
+          </div>
+
+          <!--  The actual content of the selected item -->
+          <div id="tlm-selected-content-container">
+
+            <!-- Header with title, picture, tools, rold -->
+            <div style="background-color: rgb(10,10,10); flex-grow: 1; display: flex; flex-direction: row; justify-content: start; align-items: center; padding: 20px; gap: 20px; border-bottom: solid 2px #c9ffd1">
+              <!-- <div style="aspect-ratio: 1; border: solid 2px #c9ffd1; height: 80%;"></div> -->
+              <div style="display: flex; flex-direction: column; justify-content: start; gap: 10px; height: 75%">
+                <span id="tlm-content-title" class="baseText" style="font-size: clamp(26px, 1.5vw, 3.5vw);">Title of section</span>
+                <span id="tlm-content-role" class="baseText">Role: </span>
+                <span id="tlm-content-tools" class="baseText">Tools: </span>
+              </div>
+            </div>
+
+            <!-- Text description of experience -->
+            <div id="content-parent">
+              <div style="background-color: rgb(10,10,10); padding: 20px;">
+                <span id="tlm-content-body" class="baseText">This is the text content that describes this item! <br> OK HER WE GO!</span>
+              </div>
+  
+              <!-- Carousel image gallery -->
+              <!-- TODO: Would there be an easy way to allow the user to 'fullscreen' the images
+               in the content portion of the screen? -->
+              <div id="tlm-gallery-container">
+                <div class="swiper">
+                  <div id="swiper-wrapper" class="swiper-wrapper">
+                  </div>
+                  <div class="swiper-pagination"></div>
+                  <div class="swiper-button-prev baseText" style="font-size: clamp(1.2em, 2vw, 3vw);">-</div>
+                  <div class="swiper-button-next baseText" style="font-size: clamp(1.2em, 2vw, 3vw);">+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame dynamically sizes based on 3D scene -->
         <div id='frame-container' class="frame-container">
           <div  class="frame-corner" style="grid-column: 1; grid-row: 1; justify-self: start; align-self: start; transform: rotateZ(270deg)"></div>
           <div  class="frame-corner" style="grid-column: 2; grid-row: 1; justify-self: end; align-self: start; transform: rotateZ(0deg)"></div>
@@ -29,8 +77,24 @@
               <span id="description-content" class="baseText"></span>
             </div>
           </div>
+
         </div>
 
+        <!-- This dropdown will contain orbit adjustment controls -->
+        <div id="dropdown-container" class="dropdown-container hidden">
+          <div>
+            <button id="controls-button" class="baseText observed-item">Orbit Controls</button>
+          </div>
+          <div id="content-container" class="dropdown-content">
+            <div id="orbit-controls-container"><div style="position: absolute; inset: 0; background-color:red">TEST CONTROLS</div></div>
+          </div>
+        </div>
+
+        <!-- Button to open the telemetry screen -->
+        <button id="toggle-tlm-button" class="baseText observed-item" style="position: fixed; top: 0; right: 0;">TELEMETRY</button>
+        
+        
+        <!-- Tabs anchored to the bottom left -->
         <div id="observed-list-container" class="observed-list-container">
           <div id="system-container" class="button-list">
             <button id="system-button" class="observed-item baseText selected-button"> D43N-B4DR </button>
@@ -41,6 +105,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- Intro Screen -->
       <div id='introScreen' class="introScreen">
