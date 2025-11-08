@@ -26,6 +26,8 @@ export class ObjectInformation {
         tabLabel="LABEL",
         header = "HEADER",
         body = "BODY",
+        role = "",
+        tools = "",
         modelPath = "",
         simulateOrbit = false,
         children = [],
@@ -46,6 +48,8 @@ export class ObjectInformation {
         this.scale = scale;
         this.frameGap = frameGap;
         this.galleryPath = galleryPath;
+        this.role = role;
+        this.tools = tools;
     }
 }
 

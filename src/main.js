@@ -1,4 +1,3 @@
-import OutdoorScene from './scripts/OutdoorScene.js'
 import GalaxyScene from './galaxy/world/GalaxyScene.js';
 
 window.addEventListener('DOMContentLoaded', () => {

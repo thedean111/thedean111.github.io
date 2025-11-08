@@ -9,6 +9,7 @@ import ObjectFrame from '../hud/ObjectFrame.js';
 import { MyGUI } from '../../scripts/MyGUI.js';
 import ObjectTabManager from '../hud/ObjectTabManager.js';
 import DropdownManager from '../hud/DropdownManager.js';
+import Telemetry from '../hud/Telemetry.js';
 import Dean from './Objects/Dean.js';
 import WorkPlanet from './Objects/WorkPlanet.js';
 import SchoolPlanet from './Objects/SchoolPlanet.js'
@@ -46,6 +47,7 @@ export default class GalaxyScene {
         this.focusedObject = null;
         this.tabManager = new ObjectTabManager(this.framer);
         this.dropdownManager = new DropdownManager();
+        this.tlm = new Telemetry();
 
         this.DEG2RAD = 3.1415 / 180;
         this.playIntro = playIntro;
@@ -129,6 +131,12 @@ export default class GalaxyScene {
         this.scene.add(await this.attributions.Initialize(1));
 
         // Define the parent-child relationships
+        this.dean.info.children = [
+            this.workPlanet,
+            this.schoolPlanet,
+            this.personalPlanet,
+            this.infoPlanet
+        ];
         this.workPlanet.info.children = [
             this.osr,
             this.clarus
@@ -178,9 +186,9 @@ export default class GalaxyScene {
 
         // Initial ui setup now that the objects are created
         this.tabManager.SetSystem(this.dean);
-        this.tabManager.SetPlanets([this.workPlanet, this.schoolPlanet, this.personalPlanet, this.infoPlanet]);
+        this.tabManager.SetPlanets(this.dean.info.children);
         this.dropdownManager.setFocusedObject(this.dean);
-        this.dropdownManager.setEvents();
+        this.tlm.buildNavigation(this.dean);
         //=================================================================
 
         // Make sure the camera forcible starts where we want it
