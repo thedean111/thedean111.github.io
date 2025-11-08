@@ -18,10 +18,11 @@ export default class About extends OrbitingObject {
         const info = new ObjectInformation({
             simulateOrbit: true,
             tabLabel: "ABOUT",
-            header: "About This Portfolio",
+            header: "Portfolio",
             tools: "Javascript, HTML, VITE, NodeJS, three.js, GSAP",
             role: "Software Engineer",
-            body: "All of the tools listed above were learned mostly for this project. It has been a great way to familiarize myself with common front-end tooling and has only increased my interest in user experience design and development.<br><br>Working with three.js on this project has also been a great way to apply my game development and computer graphics knowledge in a more practical way.",
+            summary: "About this portfolio. It is made in Javascript and utilizes the Node.js, three.js, GSAP, and swiper.",
+            body: "All of the tools used were learned mostly for this project. It has been a great way to familiarize myself with common front-end tooling and has only increased my interest in user experience design and development.<br><br>Working with three.js on this project has also been a great way to apply my game development and computer graphics knowledge in a more practical way.<br><br>The orbits present in the 3D scene are implemented using formulation from spacecraft flight dynamics, as such this website is somewhat of a learning tool for orbital mechanics.",
             modelPath: "models/aboutIcon.glb",
             cameraOffset: new Vector3(5, 4, 8),
             effectiveDelta: 0.5,

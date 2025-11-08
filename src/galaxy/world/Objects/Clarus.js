@@ -21,6 +21,7 @@ export default class Clarus extends OrbitingObject {
             header: "Clarus Engineering",
             tools: "Arduino (C++), Basic Electronics",
             role: "Software Developer",
+            summary: "Software-based internship for the CILA 2 Fiber Optic Polishing System.",
             body: "At Clarus I contributed to the software development of the CILA 2 Fiber Optic Polishing System. This work included:<br>- Refactoring of the existing codebase,<br>- Usability improvements on the LCD user interface,<br>- Development of smoothing algorithms for raw inertial measurement unit (IMU) data.",
             modelPath: "models/clarus.glb",
             cameraOffset: new Vector3(5, 4, 8),

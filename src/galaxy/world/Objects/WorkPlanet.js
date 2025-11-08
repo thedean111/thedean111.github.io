@@ -19,6 +19,7 @@ export default class WorkPlanet extends OrbitingObject {
             simulateOrbit: true,
             tabLabel: "WORK",
             header: "WORK EXPERIENCE",
+            summary: "Formal work experience.",
             body: "I believe its important to pursue passion, and I have had some amazing opportunities that allowed me to grow while contributing to work I care about.<br><br>This content provides a detailed overview of my formal work experience.",
             modelPath: "models/laptop.glb",
             cameraOffset: new Vector3(-15, 15, 20),
