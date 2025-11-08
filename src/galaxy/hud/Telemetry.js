@@ -13,7 +13,8 @@ export default class Telemetry {
         this.selectedRole = document.getElementById("tlm-content-role");
         this.selectedTools = document.getElementById("tlm-content-tools");
         this.selectedBody = document.getElementById("tlm-content-body");
-        this.galleryContainer = document.getElementById("tlm-gallery-container");
+        this.contentParent = document.getElementById("content-parent");
+        this.swiperWrapper = document.getElementById("swiper-wrapper")
         this.swiper = new Swiper('.swiper', {
             modules: [Navigation, Pagination],
             // Optional parameters
@@ -37,6 +38,15 @@ export default class Telemetry {
             console.log("Clicked!");
             this.tlmContainer.classList.toggle("hidden");
         });
+
+        const urls = import.meta.glob('/src/photos/*/*.{jpg,jpeg,png,JPEG,gif}', {query: '?url', import: 'default', eager: true});
+        this.images = {};
+        for (const path in urls) {
+            const parts = path.split('/');
+            const folder = parts[3];
+            if (!this.images[folder]) this.images[folder] = [];
+            this.images[folder].push(urls[path]);
+        }
     }
 
     buildNavigation(rootObj = null) {
@@ -152,15 +162,32 @@ export default class Telemetry {
         }
         this.selectedTools.textContent = prefix + info.tools;
 
-        if (info.galleryPath == "") {
-            this.galleryContainer.style.height = '0';
+        if (info.galleryName == "") {
+            this.contentParent.style.gridTemplateColumns = '1fr 0fr';
         } else {
-            this.galleryContainer.style.height = '40%';
+            this.contentParent.style.gridTemplateColumns = '1fr 1fr';
+            this.setPhotos(info.galleryName);
         }
     }
 
     setContent(objInfo) {
         this.navigationButtons.get(objInfo.tabLabel).focus();
         this.populateContent(objInfo);
+    }
+
+    setPhotos(galleryName) {
+        this.swiperWrapper.innerHTML = "";
+        for (const idx in this.images[galleryName]) {
+            const div = document.createElement('div');
+            div.classList.add("swiper-slide");
+            const img = document.createElement('img');
+            img.src = this.images[galleryName][idx];
+            img.classList.add("swiper-image");
+            div.append(img);
+            this.swiperWrapper.append(div);
+        }
+        this.swiper.update();
+        this.swiper.pagination.update();
+        this.swiper.slideTo(0, 0);
     }
 }

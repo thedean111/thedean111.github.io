@@ -28,6 +28,7 @@ export default class RemindersRedesign extends OrbitingObject {
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
+            galleryName: "reminders",
         });
 
         super(orbitTarget, info, params);

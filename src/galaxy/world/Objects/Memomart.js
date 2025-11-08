@@ -28,7 +28,7 @@ export default class Memomart extends OrbitingObject {
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
-            // galleryPath: "photos/memomart/"
+            galleryName: "memomart"
         });
 
         super(orbitTarget, info, params);

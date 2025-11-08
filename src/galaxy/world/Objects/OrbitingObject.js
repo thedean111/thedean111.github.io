@@ -36,7 +36,7 @@ export class ObjectInformation {
         effectiveDelta=1,
         scale=null,
         frameGap= new Vector2(0, 0),
-        galleryPath="",
+        galleryName="",
     } = {}) {
         this.tabLabel = tabLabel;
         this.header = header;
@@ -48,7 +48,8 @@ export class ObjectInformation {
         this.effectiveDelta = effectiveDelta;
         this.scale = scale;
         this.frameGap = frameGap;
-        this.galleryPath = galleryPath;
+        this.images = {};
+        this.galleryName=galleryName;
         this.role = role;
         this.tools = tools;
         this.summary = summary;
