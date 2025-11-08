@@ -34,7 +34,7 @@
           <div id="tlm-selected-content-container">
 
             <!-- Header with title, picture, tools, rold -->
-            <div style="background-color: rgb(20, 40, 40); height: 20%; display: flex; flex-direction: row; justify-content: start; align-items: center; padding: 20px; gap: 20px;">
+            <div style="background-color: rgb(10,10,10); height: 20%; display: flex; flex-direction: row; justify-content: start; align-items: center; padding: 20px; gap: 20px; border-bottom: solid 2px #c9ffd1">
               <div style="aspect-ratio: 1; border: solid 2px #c9ffd1; height: 80%;"></div>
               <div style="display: flex; flex-direction: column; justify-content: start; gap: 10px; height: 75%">
                 <span id="tlm-content-title" class="baseText" style="font-size: clamp(26px, 1.5vw, 3.5vw);">Title of section</span>
@@ -44,22 +44,24 @@
             </div>
 
             <!-- Text description of experience -->
-            <div style="background-color: rgb(46, 14, 76); flex-grow: 1; padding: 20px;">
+            <div style="background-color: rgb(10,10,10); flex-grow: 1; padding: 20px;">
               <span id="tlm-content-body" class="baseText">This is the text content that describes this item! <br> OK HER WE GO!</span>
             </div>
 
             <!-- Carousel image gallery -->
             <!-- TODO: Would there be an easy way to allow the user to 'fullscreen' the images
              in the content portion of the screen? -->
-            <div class="swiper">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">Slide 1</div>
-                <div class="swiper-slide">Slide 2</div>
-                <div class="swiper-slide">Slide 3</div>
+            <div id="tlm-gallery-container" style="width: 100%; height: 40%; border-top: solid 2px #c9ffd1; border-bottom: solid 2px #c9ffd1">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">Slide 1</div>
+                  <div class="swiper-slide">Slide 2</div>
+                  <div class="swiper-slide">Slide 3</div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev baseText" style="font-size: clamp(1.2em, 2vw, 3vw);">-</div>
+                <div class="swiper-button-next baseText" style="font-size: clamp(1.2em, 2vw, 3vw);">+</div>
               </div>
-              <div class="swiper-pagination"></div>
-              <div class="swiper-button-prev baseText" style="font-size: clamp(1.2em, 2vw, 3vw);">-</div>
-              <div class="swiper-button-next baseText" style="font-size: clamp(1.2em, 2vw, 3vw);">+</div>
             </div>
           </div>
         </div>
@@ -70,7 +72,7 @@
           <div  class="frame-corner" style="grid-column: 2; grid-row: 1; justify-self: end; align-self: start; transform: rotateZ(0deg)"></div>
           <div  class="frame-corner" style="grid-column: 1; grid-row: 2; justify-self: start; align-self: end; transform: rotateZ(180deg)"></div>
           <div  class="frame-corner" style="grid-column: 2; grid-row: 2; justify-self: end; align-self: end; transform: rotateZ(90deg)"></div>
-                  <div id="description-container" class="description-container">
+          <div id="description-container" class="description-container">
             <span id="description-header" class="baseText descHeader"></span>
             <div class="descContent">
               <span id="description-content" class="baseText"></span>
@@ -80,7 +82,7 @@
         </div>
 
         <!-- This dropdown will contain orbit adjustment controls -->
-        <div id="dropdown-container" class="dropdown-container">
+        <div id="dropdown-container" class="dropdown-container hidden">
           <div>
             <button id="controls-button" class="baseText observed-item">Orbit Controls</button>
           </div>

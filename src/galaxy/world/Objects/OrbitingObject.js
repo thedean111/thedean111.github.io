@@ -25,6 +25,7 @@ export class ObjectInformation {
     constructor({
         tabLabel="LABEL",
         header = "HEADER",
+        summary="Summary", // this will go in the box in the 3d view
         body = "BODY",
         role = "",
         tools = "",
@@ -50,6 +51,7 @@ export class ObjectInformation {
         this.galleryPath = galleryPath;
         this.role = role;
         this.tools = tools;
+        this.summary = summary;
     }
 }
 

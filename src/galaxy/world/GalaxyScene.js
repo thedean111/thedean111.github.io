@@ -44,7 +44,6 @@ export default class GalaxyScene {
         this.framer = new ObjectFrame(this.camera.getCamera(), this.lighting.getSun());
         this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
         this.objects = [];
-        this.focusedObject = null;
         this.tabManager = new ObjectTabManager(this.framer);
         this.dropdownManager = new DropdownManager();
         this.tlm = new Telemetry();
@@ -54,6 +53,12 @@ export default class GalaxyScene {
 
         // EVENTS
         window.addEventListener('resize', this.updateCameraResize.bind(this))
+
+        document.getElementById("toggle-tlm-button").addEventListener("click", (evt) => {
+            evt.target.blur();
+            this.tlm.tlmContainer.classList.toggle("hidden");
+            this.tlm.setContent(this.framer.focusedObject.info);
+        });
     }
 
     // Create the whole scene :)
@@ -64,7 +69,6 @@ export default class GalaxyScene {
         // My head, the center of the system
         this.dean = new Dean();
         this.scene.add(await this.dean.Initialize(0));
-        this.focusedObject = this.dean;
         
         // The planets (categories of experience)
         this.workPlanet = new WorkPlanet(this.dean.object);        

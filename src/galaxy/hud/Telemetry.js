@@ -6,14 +6,15 @@ import 'swiper/css/pagination';
 
 export default class Telemetry {
     constructor() {
+        this.navigationButtons = new Map();
         this.tlmContainer = document.getElementById("tlm-container");
         this.navContainer = document.getElementById("tlm-navigation-container");
         this.selectedTitle = document.getElementById("tlm-content-title");
         this.selectedRole = document.getElementById("tlm-content-role");
         this.selectedTools = document.getElementById("tlm-content-tools");
         this.selectedBody = document.getElementById("tlm-content-body");
-
-        const swiper = new Swiper('.swiper', {
+        this.galleryContainer = document.getElementById("tlm-gallery-container");
+        this.swiper = new Swiper('.swiper', {
             modules: [Navigation, Pagination],
             // Optional parameters
             direction: 'horizontal',
@@ -31,18 +32,11 @@ export default class Telemetry {
             },
         });
 
-        document.getElementById("toggle-tlm-button").addEventListener("click", (evt) => {
-            evt.target.blur();
-            this.tlmContainer.classList.toggle("hidden");
-        });
-
         document.getElementById("exit-tlm-button").addEventListener("click", (evt) => {
             evt.target.blur();
             console.log("Clicked!");
             this.tlmContainer.classList.toggle("hidden");
         });
-
-        this.tlmContainer.classList.toggle("hidden");
     }
 
     buildNavigation(rootObj = null) {
@@ -75,6 +69,7 @@ export default class Telemetry {
                 leafBtn.addEventListener("click", () => {
                     this.populateContent(c.info);
                 });
+                this.navigationButtons.set(c.info.tabLabel, leafBtn);
                 branch[1].appendChild(leafBtn);
             });
 
@@ -100,6 +95,7 @@ export default class Telemetry {
         button.addEventListener('click', () => {
             this.populateContent(info)
         })
+        this.navigationButtons.set(info.tabLabel, button);
         
         // The container that will be resized when the children need to be shown
         const branchBody = document.createElement('div'); 
@@ -155,5 +151,16 @@ export default class Telemetry {
             prefix = "Tools: "
         }
         this.selectedTools.textContent = prefix + info.tools;
+
+        if (info.galleryPath == "") {
+            this.galleryContainer.style.height = '0';
+        } else {
+            this.galleryContainer.style.height = '40%';
+        }
+    }
+
+    setContent(objInfo) {
+        this.navigationButtons.get(objInfo.tabLabel).focus();
+        this.populateContent(objInfo);
     }
 }

@@ -27,6 +27,7 @@ export default class CosmicCourier extends OrbitingObject {
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
+            galleryPath: "photos/cosmic_courier/"
         });
 
         super(orbitTarget, info, params);

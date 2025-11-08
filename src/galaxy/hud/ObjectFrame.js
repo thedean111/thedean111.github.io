@@ -52,7 +52,7 @@ export default class ObjectFrame {
         this.updateDetails = false;
         if (this.focusedObject){
             this.textMgr.setText('#description-header', ["^500" + this.focusedObject.info.header], true, false, 10, () => {
-                this.textMgr.setText('#description-content', ["^500" + this.focusedObject.info.body], true, true, .01);
+                this.textMgr.setText('#description-content', ["^500" + this.focusedObject.info.summary], true, true, .01);
             });
         }
     }
