@@ -1,4 +1,5 @@
-import { OrbitParams, ObjectInformation, OrbitingObject } from "./OrbitingObject";
+import { ObjectInformation, OrbitingObject } from "../OrbitingObject";
+import { OrbitParams } from "../OrbitComputer";
 import {Vector3, Vector2} from 'three'
 
 export default class Clarus extends OrbitingObject {
@@ -28,6 +29,7 @@ export default class Clarus extends OrbitingObject {
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
+            trailWidth: 0.5,
 
         });
 

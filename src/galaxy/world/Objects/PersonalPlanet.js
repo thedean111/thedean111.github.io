@@ -1,4 +1,5 @@
-import { OrbitParams, ObjectInformation, OrbitingObject } from "./OrbitingObject";
+import { ObjectInformation, OrbitingObject } from "../OrbitingObject";
+import { OrbitParams } from "../OrbitComputer";
 import {Vector3, Vector2} from 'three'
 
 export default class PersonalPlanet extends OrbitingObject {

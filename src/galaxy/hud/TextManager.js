@@ -33,7 +33,6 @@ export default class TextManager {
             cursorChar: '█',
             onComplete: function() {
                 if (onComplete) {
-                    console.log("running on complete");
                     onComplete()
                 }
             }

@@ -68,17 +68,17 @@ export default class GalaxyScene {
         =================================================================*/
         // My head, the center of the system
         this.dean = new Dean();
-        this.scene.add(await this.dean.Initialize(0));
+        await this.dean.Initialize(0, this.scene);
         
         // The planets (categories of experience)
         this.workPlanet = new WorkPlanet(this.dean.object);        
-        this.scene.add(await this.workPlanet.Initialize(0));
+        await this.workPlanet.Initialize(0, this.scene);
         this.schoolPlanet = new SchoolPlanet(this.dean.object);
-        this.scene.add(await this.schoolPlanet.Initialize(3));
+        await this.schoolPlanet.Initialize(3, this.scene);
         this.personalPlanet = new PersonalPlanet(this.dean.object);
-        this.scene.add(await this.personalPlanet.Initialize(3));
+        await this.personalPlanet.Initialize(3, this.scene);
         this.infoPlanet = new Info(this.dean.object);
-        this.scene.add(await this.infoPlanet.Initialize(3.2));
+        await this.infoPlanet.Initialize(3.2, this.scene);
 
         // This is to utilize a shape key of my head instead of exporting another model
         const morphs = [];
@@ -96,43 +96,43 @@ export default class GalaxyScene {
 
         // Work experience
         this.osr = new OSR(this.workPlanet.object);
-        this.scene.add(await this.osr.Initialize(.2));
+        await this.osr.Initialize(.2, this.scene);
         this.clarus = new Clarus(this.workPlanet.object);
-        this.scene.add(await this.clarus.Initialize(3.2));
+        await this.clarus.Initialize(3.2, this.scene);
 
         // School projects
         this.cosmicCourier = new CosmicCourier(this.schoolPlanet.object);
-        this.scene.add(await this.cosmicCourier.Initialize(0.1));
+        await this.cosmicCourier.Initialize(0.1, this.scene);
         this.cosmicCourier.object.scale.set(0.1, 0.1, 0.1);
         this.stroke = new StrokeRehab(this.schoolPlanet.object);
-        this.scene.add(await this.stroke.Initialize(0.3));
+        await this.stroke.Initialize(0.3, this.scene);
         this.stroke.object.scale.set(0.1, 0.1, 0.1);
         this.raytracer = new Raytracer(this.schoolPlanet.object);
-        this.scene.add(await this.raytracer.Initialize(1.2));
+        await this.raytracer.Initialize(1.2, this.scene);
         this.raytracer.object.scale.set(0.1, 0.1, 0.1);
         this.pokemon = new PokemonSimulator(this.schoolPlanet.object);
-        this.scene.add(await this.pokemon.Initialize(2));
+        await this.pokemon.Initialize(2, this.scene);
         this.pokemon.object.scale.set(0.1, 0.1, 0.1);
         this.reminders = new RemindersRedesign(this.schoolPlanet.object);
-        this.scene.add(await this.reminders.Initialize(2.8));
+        await this.reminders.Initialize(2.8, this.scene);
         this.reminders.object.scale.set(0.1, 0.1, 0.1);
 
         // Personal
         this.technical = new TechnicalHobbies(this.personalPlanet.object);
-        this.scene.add(await this.technical.Initialize(.2));
+        await this.technical.Initialize(.2, this.scene);
         this.technical.object.scale.set(0.1, 0.1, 0.1);
         this.creative = new ArtsCrafts(this.personalPlanet.object);
-        this.scene.add(await this.creative.Initialize(1));
+        await this.creative.Initialize(1, this.scene);
         this.creative.object.scale.set(0.1, 0.1, 0.1);
         this.memomart = new Memomart(this.personalPlanet.object);
-        this.scene.add(await this.memomart.Initialize(2.5));
+        await this.memomart.Initialize(2.5, this.scene);
         this.memomart.object.scale.set(0.1, 0.1, 0.1);
 
         // Info
         this.about = new About(this.infoPlanet.object);
-        this.scene.add(await this.about.Initialize(2));
+        await this.about.Initialize(2, this.scene);
         this.attributions = new Attributions(this.infoPlanet.object);
-        this.scene.add(await this.attributions.Initialize(1));
+        await this.attributions.Initialize(1, this.scene);
 
         // Define the parent-child relationships
         this.dean.info.children = [

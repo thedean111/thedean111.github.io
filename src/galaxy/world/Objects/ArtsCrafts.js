@@ -1,4 +1,5 @@
-import { OrbitParams, ObjectInformation, OrbitingObject } from "./OrbitingObject";
+import { ObjectInformation, OrbitingObject } from "../OrbitingObject";
+import { OrbitParams } from "../OrbitComputer";
 import {Vector3, Vector2} from 'three'
 
 export default class ArtsCrafts extends OrbitingObject {
@@ -27,6 +28,7 @@ export default class ArtsCrafts extends OrbitingObject {
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
             galleryName: "crafts",
+            trailWidth: 0.5,
         });
 
         super(orbitTarget, info, params);
