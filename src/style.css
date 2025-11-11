@@ -340,20 +340,23 @@
   flex-direction: column;
   left: 0px;
   top: 0px;
-  width: 30vw;
+  /* width: fit-content; */
   height: auto;
   margin-left: 10px;
   pointer-events: auto;
+  transform: scale(calc(100vh / 1080px)); /* assuming 900px design height */
+  transform-origin: top left;
+  overflow: hidden;
 }
 
 .dropdown-content {
   position: relative;
   height: 0px;
-  width: 100%;
+  /* width: fit-content; */
   display: flex;
   background-color: rgba(10,10,10,0.6);
   flex-direction: column;
-  overflow: hidden;
+  /* overflow: hidden; */
   scrollbar-width: auto;
   scrollbar-color: #c9ffd1 rgba(0,0,0,0) ;
   border: solid #c9ffd1 2px;
@@ -384,21 +387,18 @@
 }
 
 .orbit-control-slider {
-  width: 60%;
+  width: 150px;
 }
 
 .orbit-control-slider-label {
-  width: 25px;
+  width: 20px;
 }
 
 .orbit-control-slider-value {
   margin-left: auto;
-  width: 15%;
+  width: 60px;
   border: solid 2px #c9ffd1;
   padding: 5px;
-  /* flex-grow: 1; */
-  /* text-align: end; */
-  /* align-self: end; */
 }
 
 .descHeader {
@@ -436,6 +436,8 @@
   width: fit-content;
   /* min-width: 135px; */
   height: auto;
+  transform: scale(calc(100vh / 1080px)); /* assuming 900px design height */
+  transform-origin: bottom left;
 }
 
 .observed-item {

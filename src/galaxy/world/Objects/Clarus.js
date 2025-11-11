@@ -25,7 +25,7 @@ export default class Clarus extends OrbitingObject {
             summary: "Software-based internship for the CILA 2 Fiber Optic Polishing System.",
             body: "At Clarus I contributed to the software development of the CILA 2 Fiber Optic Polishing System. This work included:<br>- Refactoring of the existing codebase,<br>- Usability improvements on the LCD user interface,<br>- Development of smoothing algorithms for raw inertial measurement unit (IMU) data.",
             modelPath: "models/clarus.glb",
-            cameraDistance: 10,
+            cameraDistance: 5,
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),

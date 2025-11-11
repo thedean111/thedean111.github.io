@@ -11,7 +11,7 @@ export default class Dean extends OrbitingObject {
             simulateOrbit: false,
             tabLabel: "D34N",
             header: "D34N-B4DR",
-            summary: "Welcome to my solar system!<br><br>The 3D view may be explored by clicking the tabs in the bottom left.<br><br>The 'TELEMETRY' button will display more details on objects in this system.",
+            summary: "Welcome to my solar system!<br><br>The 3D view may be explored by clicking the tabs in the bottom left.<br><br>You may also click and drag any empty space in the viewport to rotate around the centered object.<br><br>The 'TELEMETRY' button will display more details on objects in this system.<br><br>The 'ORBIT CONTROLS' button will display settings for the visible orbits.",
             body: "This website is a creative manifestation of my portfolio! It documents most of my skills and the projects that I feel proud to show.<br><br>This telemetry screen was created to provide a more typical webpage experience while still trying to fit in the themes of the project.",
             modelPath: "models/dean_lowPoly.glb",
             cameraDistance: 300,

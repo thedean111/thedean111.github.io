@@ -25,7 +25,7 @@ export default class Raytracer extends OrbitingObject {
             summary: "This experience presents the results of my guided implementation of advanced computer graphics concepts.<br><br>These include a 3D raytracing rendering engine, implicit surface generation, and advanced mesh manipulation.",
             body: "The raytracer includes:<br>Axis-Aligned Bounding Boxes, Unlit basic eye/camera rendering, Bounding volume hierarchy (BVH) optimization, Lambertian and Blinn-Phong shading, Anti-aliasing, Surface reflections, Motion blur, Soft/Hard shadows, Depth of field, Transparency.<br><br>For implicit surface generation I wrote various algorithms for generating and deforming primitives based on their scalar fields. In addition I implemented blended vertex colors and normal vector computation.<br><br>I also implemented mesh manipulation algorithms that include: Loop subdivision, Butterfly subdivision, Laplace smoothing, and Taubin smoothing.",
             modelPath: "models/raytracing.glb",
-            cameraDistance: 10,
+            cameraDistance: 5,
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),

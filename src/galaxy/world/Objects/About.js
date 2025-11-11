@@ -25,7 +25,7 @@ export default class About extends OrbitingObject {
             summary: "About this portfolio. It is made in Javascript and utilizes the Node.js, three.js, GSAP, and swiper libraries.",
             body: "All of the tools used were learned mostly for this project. It has been a great way to familiarize myself with common front-end tooling and has only increased my interest in user experience design and development.<br><br>Working with three.js on this project has also been a great way to apply my game development and computer graphics knowledge in a more practical way.<br><br>The orbits present in the 3D scene are implemented using formulation from spacecraft flight dynamics, as such this website is somewhat of a learning tool for orbital mechanics.",
             modelPath: "models/aboutIcon.glb",
-            cameraDistance: 10,
+            cameraDistance: 5,
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
