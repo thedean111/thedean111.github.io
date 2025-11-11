@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import IntroSequence from '../hud/IntroSequence.js';
 import Camera from '../../scripts/Camera.js';
+import CameraController from './CameraController.js';
 import Renderer from '../../scripts/Renderer.js';
 import Lighting from '../../scripts/Lighting.js';
 import Loader from '../../scripts/Loader.js';
@@ -38,10 +39,11 @@ export default class GalaxyScene {
         this.renderer.setComposerPasses(this.scene, this.camera.getCamera());
         this.loader = new Loader();
         this.clock = new THREE.Clock();
+        this.camControls = new CameraController(this.camera.camera, this.renderer.getDOM());
         // this.gui = new MyGUI();
         this.mouse = new THREE.Vector2();
         this.txtMgr = new TextManager();
-        this.framer = new ObjectFrame(this.camera.getCamera(), this.lighting.getSun());
+        this.framer = new ObjectFrame(this.camControls, this.lighting.getSun());
         this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
         this.objects = [];
         this.dropdownManager = new DropdownManager();
@@ -197,7 +199,7 @@ export default class GalaxyScene {
         //=================================================================
 
         // Make sure the camera forcible starts where we want it
-        this.camera.getCamera().position.add(this.dean.object.position).add(this.dean.info.cameraOffset);
+        this.camControls.setCameraPosition(this.dean.object.position, 0, 1, this.dean.info.cameraDistance);
         this.camera.getCamera().lookAt(this.dean.object.position);
 
         // Fire off the introduction sequence. On complete, it will set the focus to my head
@@ -236,21 +238,6 @@ export default class GalaxyScene {
         this.lighting.setSunTarget(3, 0, -5);
         this.lighting.setSun(0xFFFFFF, 2)
         this.lighting.setAmbient(0xFFFFFF, .5);
-
-        // // GUI
-        // let ambientGroup = this.gui.makeFolder('Ambient Light');
-        // this.gui.addColorToFolder(ambientGroup, this.lighting.getAmbient(), 'Color');
-        // ambientGroup.add(this.lighting.getAmbient(), 'intensity', 0, 1, 0.01).name("Intensity");
-
-        // let sunGroup = this.gui.makeFolder('Sunlight');
-        // this.gui.addColorToFolder(sunGroup, this.lighting.getSun(), 'Color');
-        // sunGroup.add(this.lighting.getSun(), 'intensity', 0, 5, 0.01).name("Intensity");
-        // this.gui.addVectorToFolder(sunGroup, this.lighting.getSun().position, 'Position', -50, 50, 1);
-        // this.gui.addVectorToFolder(sunGroup, this.lighting.getSunTarget().position, 'Target', -50, 50, 1);
-
-        // let cameraGroup = this.gui.makeFolder('Camera');
-        // this.gui.addVectorToFolder(cameraGroup, this.camera.getCamera().position, 'Position', -50, 50, 1);
-        // this.gui.addVectorToFolder(cameraGroup, this.camera.getCameraTarget().position, 'Target', -50, 50, 1);
     }
 
     update() {
@@ -261,7 +248,7 @@ export default class GalaxyScene {
         })
 
 
-        this.framer.update(delta);
+        this.framer.update();
 
         // Render to the screen
         this.renderer.render();

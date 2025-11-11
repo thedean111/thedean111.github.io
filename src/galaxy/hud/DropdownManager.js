@@ -19,6 +19,8 @@ export default class DropdownManager {
 
         // This will always open the orbit controls
         this.controlsBtn.addEventListener('click', () => {
+            this.controlsBtn.blur();
+
             if (this.controlsOpen) {
                 this.closeDropdown();
                 this.controlsOpen = false;
@@ -55,6 +57,7 @@ export default class DropdownManager {
         this.updateRAAN();
 
         this.aSlider.addEventListener("input", ()=> {
+            this.selectedOrbitObj.holdTrueAnomaly = true;
             this.selectedOrbitObj.updateTrailRecompute = true;
             this.updateA();
             this.selectedOrbitObj.params.semimajorAxis = this.aSlider.valueAsNumber;
@@ -67,7 +70,8 @@ export default class DropdownManager {
         this.eSlider.addEventListener("input", ()=> {
             this.selectedOrbitObj.updateTrailRecompute = true;
             this.updateE();
-            this.selectedOrbitObj.params.eccentricity = this.eSlider.valueAsNumber;
+            const e = this.eSlider.valueAsNumber;
+            this.selectedOrbitObj.params.eccentricity = e==1 ? 0.999999 : e==0 ? 0.000001 : e;
         });
         this.wSlider.addEventListener("input", ()=> {
             this.selectedOrbitObj.updateTrailRecompute = true;
@@ -81,6 +85,7 @@ export default class DropdownManager {
         });
 
         this.aSlider.addEventListener("change", ()=> {
+            this.selectedOrbitObj.holdTrueAnomaly = false;
             this.selectedOrbitObj.updateTrailRecompute = false
         });
         this.iSlider.addEventListener("change", ()=> {
@@ -165,6 +170,15 @@ export default class DropdownManager {
         this.eLab.innerHTML = `${value.toFixed(2).padStart(4,"0")}`;
     }
 
+    disableMenu() {
+        this.closeDropdown();
+        this.controlsBtn.disabled = true;
+    }
+
+    enableMenu() {
+        this.controlsBtn.disabled = false;
+    }
+
     updateSliderLabel(slider, label, suffix="") {
         // const value = (slider.value / 100) * parseFloat(slider.max);
         const value = slider.valueAsNumber;
@@ -182,20 +196,17 @@ export default class DropdownManager {
     * Smoothly close the box
     * Disable the active button
     */
-    closeDropdown(onComplete = null) {
+    closeDropdown() {
+        this.contentContainer.classList.add('dropdown-content-closed');
         gsap.to(this.contentContainer, {
-            height: "0vh",
+            height: "0px",
             duration: DropdownManager.CONTENT_DURATION,
-            onComplete: () => {
-                console.log("CLOSING");
-                if (onComplete) {onComplete();}
-            },
         });
     }
 
     // Animate the height back to open
     expandDropdown() {
-        console.log("opening dropdown");
+        this.contentContainer.classList.remove('dropdown-content-closed');
         gsap.to(this.contentContainer, {
             height: 'auto',
             duration: DropdownManager.CONTENT_DURATION,

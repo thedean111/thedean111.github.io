@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js'
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js'
-import { OrbitParams, OrbitComputer } from './OrbitComputer'
+import { OrbitComputer } from './OrbitComputer'
 
 // Create a trail that visualizes an entire orbit
 export default class OrbitTrail {
@@ -24,6 +24,7 @@ export default class OrbitTrail {
             linewidth: thickness,
             transparent: true,
         });
+        this.defaultThickness = thickness;
         this.line = new THREE.Mesh(this.lineGeo, this.lineMat);
 
         this.computeTrail();
@@ -40,6 +41,7 @@ export default class OrbitTrail {
 
         const stepSize = (2 * Math.PI) / this.resolution;
         this.points = [];
+
         for (let i = 0; i <= this.resolution; i++) {
             this.orbitParams.trueAnomaly = i * stepSize;
             const inrtl = OrbitComputer.getInertialPosition(this.orbitParams);

@@ -17,7 +17,6 @@ export default class ObjectTabManager {
         // These are just for easy iterating
         this.planets = [];
         this.moons = [];
-
     }
 
     // Sets the data for the root of the experience (my head)
@@ -25,6 +24,9 @@ export default class ObjectTabManager {
         this.systemObj = systemObj;
         this.systemBtn.textContent = systemObj.info.tabLabel;
         this.systemBtn.addEventListener('click', () => {
+            // Enable the orbit menu
+            this.orbitControls.enableMenu();
+            
             this.frame.updateDetails = true;
             this.frame.setFocus(this.systemObj);
             this.orbitControls.setAvailableOrbits(this.systemObj.info.children, this.systemObj.info.childrenMaxSemimajor);
@@ -81,6 +83,9 @@ export default class ObjectTabManager {
             btn.classList.add("observed-item", "baseText");
             btn.textContent = p.info.tabLabel;
             btn.addEventListener('click', () => {
+                // Enable the orbit menu
+                this.orbitControls.enableMenu();
+
                 // Handle styling for the planet-level tabs
                 if (this.selectedPlanet) {
                     if (this.selectPlanet != btn) {
@@ -160,12 +165,15 @@ export default class ObjectTabManager {
             m.FadeObject(1);
             m.updateTrail = true;
             btn.addEventListener('click', () => {
+                // Disable the orbit menu, the moon has no orbits
+                this.orbitControls.disableMenu();
+
                 // Handle the tab styling
                 if (this.selectedMoon) {
                     if (this.selectedMoon == btn) {return;}
                     this.selectedMoon.classList.remove('selected-button');
                     m.FadeObject(1);
-                    selectedMoonObj.FadeObject(0);
+                    this.selectedMoonObj.FadeObject(0);
                     
                 // If there wasn't a selected moon, but now we are clicking one, then
                 // we want to stop the movement of the moons and fade out the one we didn't click
@@ -190,7 +198,6 @@ export default class ObjectTabManager {
                 this.selectedMoon = btn;
                 this.selectedMoonObj = m;
                 m.FadeTrail(0);
-                this.orbitControls.setAvailableOrbits(m.info.children, m.info.childrenMaxSemimajor);
 
                 // No planets should be visible
                 this.planets.forEach(c => {

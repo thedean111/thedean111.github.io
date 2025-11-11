@@ -25,7 +25,7 @@ export class ObjectInformation {
         modelPath = "",
         simulateOrbit = false,
         children = [],
-        cameraOffset=null,
+        cameraDistance=10,
         effectiveDelta=1,
         scale=null,
         frameGap= new Vector2(0, 0),
@@ -40,7 +40,7 @@ export class ObjectInformation {
         this.modelPath = modelPath;
         this.simulateOrbit = simulateOrbit;
         this.children = children;
-        this.cameraOffset = cameraOffset;
+        this.cameraDistance = cameraDistance;
         this.effectiveDelta = effectiveDelta;
         this.scale = scale;
         this.frameGap = frameGap;
@@ -60,13 +60,13 @@ export class OrbitingObject {
         this.orbitObj = orbitObj;
         this.info = objectInfo;
         this.params = orbitParams;
-        this.currentRadius = 0;
         this.object = null;
-        this.DEG2RAD = 3.1415 / 180;
+        this.DEG2RAD = Math.PI / 180;
         this.R = [];
         this.deltaScale = objectInfo.effectiveDelta;
         this.updateTrail = false;
         this.updateTrailRecompute = false;
+        this.holdTrueAnomaly = false;
         let off = new Vector3();
         if (orbitObj) {
             off = orbitObj.position;
@@ -116,14 +116,14 @@ export class OrbitingObject {
         let delta = 1;
         const periapsis = this.params.semimajorAxis * (1 - this.params.eccentricity);
         const apoapsis = this.params.semimajorAxis * (1 + this.params.eccentricity);
+        const radius = OrbitComputer.computeRadius(this.params);
 
         const invMin = 1 / (apoapsis * apoapsis); // slowest at apoapsis
         const invMax = 1 / (periapsis * periapsis); // fastest at periapsis
-        const invR = 1 / (this.currentRadius * this.currentRadius);
+        const invR = 1 / (radius * radius);
         const t = (invR - invMin) / (invMax - invMin);
-        delta = 0.4 + t * (1.0 - 0.4);
-
-        this.params.trueAnomaly += delta * this.deltaScale * (Math.PI / 180);
+        delta = 0.5 + t * (1.5 - 0.2);
+        this.params.trueAnomaly += delta * this.deltaScale * this.DEG2RAD;
         this.params.trueAnomaly %= (2 * Math.PI);
     }
 
@@ -134,11 +134,12 @@ export class OrbitingObject {
         }
 
         // Update the true anomaly based on the current distance from the focus
-        this.UpdateTrueAnomaly();
+        if (!this.holdTrueAnomaly) {
+            this.UpdateTrueAnomaly();
+        }
 
         // Static helper to get the inertial position and radius
         const inertialPosition = OrbitComputer.getInertialPosition(this.params);
-        this.currentRadius = inertialPosition[3];
 
         // Offset the inertial position by the world position of the center body
         this.object.position.x = inertialPosition[0] + this.orbitObj.position.x;
@@ -187,6 +188,7 @@ export class OrbitingObject {
         this.FadeTrail(target);
 
         if (this.object.isMesh && this.object.material) {
+            this.object.material.depthWrite = target != 0;
             gsap.to(this.object.material, {
                 opacity: target,
                 duration: 0.75,
@@ -197,6 +199,7 @@ export class OrbitingObject {
         const mats = [];
         this.object.traverse( child => {
             if (child.isMesh && child.material) {
+                child.material.depthWrite = target != 0;
                 child.material.transparent = true;
                 mats.push(child.material);
             }

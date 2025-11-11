@@ -1,5 +1,3 @@
-import { Vector3 } from 'three';
-
 // https://en.wikipedia.org/wiki/Orbital_elements
 export class OrbitParams {
     constructor({
@@ -22,8 +20,6 @@ export class OrbitParams {
 export class OrbitComputer {
     static getInertialPosition(params) {
         const radius = this.computeRadius(params);
-        // const r_pqw = new Vector3(radius * Math.cos(params.trueAnomaly), radius * Math.sin(params.trueAnomaly), 0);
-
         const u = params.argPeriapsis + params.trueAnomaly;
         const cRaan = Math.cos(params.raan);
         const sRaan = Math.sin(params.raan);
@@ -35,8 +31,7 @@ export class OrbitComputer {
         return [
                 radius * (cRaan*Math.cos(u) - sRaan*cI*Math.sin(u)),
                 radius * (sI*Math.sin(u)),
-                radius * (sRaan*Math.cos(u) + cRaan*cI*Math.sin(u)),
-                radius
+                radius * (sRaan*Math.cos(u) + cRaan*cI*Math.sin(u))
             ];
     }
 
