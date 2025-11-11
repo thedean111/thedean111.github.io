@@ -23,7 +23,7 @@ export default class TechnicalHobbies extends OrbitingObject {
             summary: "Hobbies and personal projects that leverage my technical development skill set--CAD, programming, electronics, and 3D printing.",
             body: "Game Development:<br>I am experienced in the Unity game engine and Blender 3D modeling software from years of hobbyist dabbling. I enjoy learning about real-time computing techniques and have personally created versions of procedurally generated terrain, mesh rendering, and building systems.<br><br>3D Printing:<br>I have been 3D printing models for many years now, and I enjoy creating items for both functional and artistic purposes. Inspired by my favorite media, I recreate characters and paint them for gifts or display in my own space.<br><br>Product Development:<br>Creating functional products has become a way for me to productively apply my skills. In addition to MEM-O-MART, I created a functional bedside clock that prints messages to the screen every morning.",
             modelPath: "models/printer3D.glb",
-            cameraDistance: 10,
+            cameraDistance: 5,
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
