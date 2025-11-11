@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import IntroSequence from '../hud/IntroSequence.js';
 import Camera from '../../scripts/Camera.js';
+import CameraController from './CameraController.js';
 import Renderer from '../../scripts/Renderer.js';
 import Lighting from '../../scripts/Lighting.js';
 import Loader from '../../scripts/Loader.js';
@@ -38,14 +39,15 @@ export default class GalaxyScene {
         this.renderer.setComposerPasses(this.scene, this.camera.getCamera());
         this.loader = new Loader();
         this.clock = new THREE.Clock();
+        this.camControls = new CameraController(this.camera.camera, this.renderer.getDOM());
         // this.gui = new MyGUI();
         this.mouse = new THREE.Vector2();
         this.txtMgr = new TextManager();
-        this.framer = new ObjectFrame(this.camera.getCamera(), this.lighting.getSun());
+        this.framer = new ObjectFrame(this.camControls, this.lighting.getSun());
         this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
         this.objects = [];
-        this.tabManager = new ObjectTabManager(this.framer);
         this.dropdownManager = new DropdownManager();
+        this.tabManager = new ObjectTabManager(this.framer, this.dropdownManager);
         this.tlm = new Telemetry();
 
         this.DEG2RAD = 3.1415 / 180;
@@ -68,17 +70,17 @@ export default class GalaxyScene {
         =================================================================*/
         // My head, the center of the system
         this.dean = new Dean();
-        this.scene.add(await this.dean.Initialize(0));
+        await this.dean.Initialize(0, this.scene);
         
         // The planets (categories of experience)
         this.workPlanet = new WorkPlanet(this.dean.object);        
-        this.scene.add(await this.workPlanet.Initialize(0));
+        await this.workPlanet.Initialize(0, this.scene);
         this.schoolPlanet = new SchoolPlanet(this.dean.object);
-        this.scene.add(await this.schoolPlanet.Initialize(3));
+        await this.schoolPlanet.Initialize(3, this.scene);
         this.personalPlanet = new PersonalPlanet(this.dean.object);
-        this.scene.add(await this.personalPlanet.Initialize(3));
+        await this.personalPlanet.Initialize(3, this.scene);
         this.infoPlanet = new Info(this.dean.object);
-        this.scene.add(await this.infoPlanet.Initialize(3.2));
+        await this.infoPlanet.Initialize(3.2, this.scene);
 
         // This is to utilize a shape key of my head instead of exporting another model
         const morphs = [];
@@ -96,43 +98,43 @@ export default class GalaxyScene {
 
         // Work experience
         this.osr = new OSR(this.workPlanet.object);
-        this.scene.add(await this.osr.Initialize(.2));
+        await this.osr.Initialize(.2, this.scene);
         this.clarus = new Clarus(this.workPlanet.object);
-        this.scene.add(await this.clarus.Initialize(3.2));
+        await this.clarus.Initialize(3.2, this.scene);
 
         // School projects
         this.cosmicCourier = new CosmicCourier(this.schoolPlanet.object);
-        this.scene.add(await this.cosmicCourier.Initialize(0.1));
+        await this.cosmicCourier.Initialize(0.1, this.scene);
         this.cosmicCourier.object.scale.set(0.1, 0.1, 0.1);
         this.stroke = new StrokeRehab(this.schoolPlanet.object);
-        this.scene.add(await this.stroke.Initialize(0.3));
+        await this.stroke.Initialize(0.3, this.scene);
         this.stroke.object.scale.set(0.1, 0.1, 0.1);
         this.raytracer = new Raytracer(this.schoolPlanet.object);
-        this.scene.add(await this.raytracer.Initialize(1.2));
+        await this.raytracer.Initialize(1.2, this.scene);
         this.raytracer.object.scale.set(0.1, 0.1, 0.1);
         this.pokemon = new PokemonSimulator(this.schoolPlanet.object);
-        this.scene.add(await this.pokemon.Initialize(2));
+        await this.pokemon.Initialize(2, this.scene);
         this.pokemon.object.scale.set(0.1, 0.1, 0.1);
         this.reminders = new RemindersRedesign(this.schoolPlanet.object);
-        this.scene.add(await this.reminders.Initialize(2.8));
+        await this.reminders.Initialize(2.8, this.scene);
         this.reminders.object.scale.set(0.1, 0.1, 0.1);
 
         // Personal
         this.technical = new TechnicalHobbies(this.personalPlanet.object);
-        this.scene.add(await this.technical.Initialize(.2));
+        await this.technical.Initialize(.2, this.scene);
         this.technical.object.scale.set(0.1, 0.1, 0.1);
         this.creative = new ArtsCrafts(this.personalPlanet.object);
-        this.scene.add(await this.creative.Initialize(1));
+        await this.creative.Initialize(1, this.scene);
         this.creative.object.scale.set(0.1, 0.1, 0.1);
         this.memomart = new Memomart(this.personalPlanet.object);
-        this.scene.add(await this.memomart.Initialize(2.5));
+        await this.memomart.Initialize(2.5, this.scene);
         this.memomart.object.scale.set(0.1, 0.1, 0.1);
 
         // Info
         this.about = new About(this.infoPlanet.object);
-        this.scene.add(await this.about.Initialize(2));
+        await this.about.Initialize(2, this.scene);
         this.attributions = new Attributions(this.infoPlanet.object);
-        this.scene.add(await this.attributions.Initialize(1));
+        await this.attributions.Initialize(1, this.scene);
 
         // Define the parent-child relationships
         this.dean.info.children = [
@@ -192,11 +194,12 @@ export default class GalaxyScene {
         this.tabManager.SetSystem(this.dean);
         this.tabManager.SetPlanets(this.dean.info.children);
         this.dropdownManager.setFocusedObject(this.dean);
+        this.dropdownManager.setAvailableOrbits(this.dean.info.children);
         this.tlm.buildNavigation(this.dean);
         //=================================================================
 
         // Make sure the camera forcible starts where we want it
-        this.camera.getCamera().position.add(this.dean.object.position).add(this.dean.info.cameraOffset);
+        this.camControls.setCameraPosition(this.dean.object.position, 0, 1, this.dean.info.cameraDistance);
         this.camera.getCamera().lookAt(this.dean.object.position);
 
         // Fire off the introduction sequence. On complete, it will set the focus to my head
@@ -226,6 +229,7 @@ export default class GalaxyScene {
 
         // const tex = this.loader.loadCubeTexture('skybox');
         // tex.minFilter = LinearFilter;
+        // tex.
         // this.scene.background = this.loader.loadCubeTexture('skybox');
         // this.scene.background = new Color(0x00061a);
         this.scene.background = new THREE.Color(0x242424);
@@ -234,21 +238,6 @@ export default class GalaxyScene {
         this.lighting.setSunTarget(3, 0, -5);
         this.lighting.setSun(0xFFFFFF, 2)
         this.lighting.setAmbient(0xFFFFFF, .5);
-
-        // // GUI
-        // let ambientGroup = this.gui.makeFolder('Ambient Light');
-        // this.gui.addColorToFolder(ambientGroup, this.lighting.getAmbient(), 'Color');
-        // ambientGroup.add(this.lighting.getAmbient(), 'intensity', 0, 1, 0.01).name("Intensity");
-
-        // let sunGroup = this.gui.makeFolder('Sunlight');
-        // this.gui.addColorToFolder(sunGroup, this.lighting.getSun(), 'Color');
-        // sunGroup.add(this.lighting.getSun(), 'intensity', 0, 5, 0.01).name("Intensity");
-        // this.gui.addVectorToFolder(sunGroup, this.lighting.getSun().position, 'Position', -50, 50, 1);
-        // this.gui.addVectorToFolder(sunGroup, this.lighting.getSunTarget().position, 'Target', -50, 50, 1);
-
-        // let cameraGroup = this.gui.makeFolder('Camera');
-        // this.gui.addVectorToFolder(cameraGroup, this.camera.getCamera().position, 'Position', -50, 50, 1);
-        // this.gui.addVectorToFolder(cameraGroup, this.camera.getCameraTarget().position, 'Target', -50, 50, 1);
     }
 
     update() {
@@ -259,7 +248,7 @@ export default class GalaxyScene {
         })
 
 
-        this.framer.update(delta);
+        this.framer.update();
 
         // Render to the screen
         this.renderer.render();

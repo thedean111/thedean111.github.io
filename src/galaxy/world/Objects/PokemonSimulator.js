@@ -1,16 +1,17 @@
-import { OrbitParams, ObjectInformation, OrbitingObject } from "./OrbitingObject";
+import { ObjectInformation, OrbitingObject } from "../OrbitingObject";
+import { OrbitParams } from "../OrbitComputer";
 import {Vector3, Vector2} from 'three'
 
 export default class PokemonSimulator extends OrbitingObject {
     // Define all object information here!
     constructor(orbitTarget) {
-        const i = 60;
+        const i = 90;
         const w = 35;
         const params = new OrbitParams({
             inclination: i * (Math.PI / 180),
             trueAnomaly: 20,
-            eccentricity: 0.2,
-            semimajorAxis: 18,
+            eccentricity: 0.01,
+            semimajorAxis: 28,
             raan: 0,
             argPeriapsis: w * (Math.PI / 180)
         });
@@ -24,11 +25,12 @@ export default class PokemonSimulator extends OrbitingObject {
             summary: "A simple web application that abstractly simulated Pokemon battles. Its built with containerized Docker services and is implemented with a React/Java tech stack.",
             body: "In this project my team developed a Pokemon battle simulator web application as part of a graduate course. This project required formal system architecting and web app development.<br><br>My contributions to this project include:<br>- UML diagram development (class and sequence),<br>- UI design in Figma,<br>- Front end implementation using React.js,<br>- Postgres database schema design,<br>- Assistance with back-end domain logic.",
             modelPath: "models/pokeball.glb",
-            cameraOffset: new Vector3(5, 1, .25),
+            cameraDistance: 10,
             effectiveDelta: 0.5,
             scale: new Vector3(0.2, 0.2, 0.2),
             frameGap: new Vector2(16, 30),
             galleryName: "pokemon",
+            trailWidth: 0.5,
         });
 
         super(orbitTarget, info, params);

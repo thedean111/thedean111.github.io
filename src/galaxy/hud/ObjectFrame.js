@@ -4,12 +4,12 @@ import { gsap } from "gsap"
 import TextManager from './TextManager';
 
 export default class ObjectFrame {
-    constructor(camera, sun) {
+    constructor(camControls, sun) {
         this.frame = document.getElementById("frame-container");
         this.header = document.getElementById("description-header");
         this.content = document.getElementById("description-content");
         this.container = document.getElementById("description-container");
-        this.camera = camera;
+        this.camControls = camControls;
         this.sun = sun;
         this.textMgr = new TextManager();
         this.headerTxt = "";
@@ -17,6 +17,9 @@ export default class ObjectFrame {
         this.updateDetails = false;
         this.tmpUpdateDetails = false;
         this.focusedObject = null;
+
+        this.contentOpen = false;
+        this.moving = false;
 
         this.posDamp = 4;
         this.rotDamp = 8;
@@ -27,16 +30,10 @@ export default class ObjectFrame {
         this.tmpScale = new THREE.Vector3();
         this.up = new THREE.Vector3(0, 1, 0);
 
-
-        // Setup for reused GSAP animations
-        this.camX = gsap.quickTo(this.camera.position, "x", {duration: 3, ease: "power2.out"});
-        this.camY = gsap.quickTo(this.camera.position, "y", {duration: 3, ease: "power2.out"});
-        this.camZ = gsap.quickTo(this.camera.position, "z", {duration: 3, ease: "power2.out"});
-
-
         this.frame.addEventListener('transitionend', () => {
             if (this.updateDetails) {
                 this.container.style.setProperty('--contentWidth', `30vw`);
+                this.contentOpen = true;
                 this.container.style.opacity = 1;
             }
         });
@@ -44,6 +41,21 @@ export default class ObjectFrame {
         this.container.addEventListener('transitionend', () => {
             if (this.updateDetails && this.container.style.getPropertyValue('--contentWidth') == `30vw`) {
                 this.writeDetails();
+            }
+        });
+
+        document.getElementById("description-toggle-button").addEventListener("click", (e) => {
+            e.target.blur();
+            if (!this.moving) { 
+                if (this.contentOpen) {
+                    this.container.style.setProperty('--contentWidth', `0vw`);
+                    this.contentOpen = false;
+                    e.target.textContent = "+";
+                } else {
+                    this.container.style.setProperty('--contentWidth', `30vw`);
+                    this.contentOpen = true;
+                    e.target.textContent = "-";
+                }
             }
         });
     }
@@ -87,7 +99,7 @@ export default class ObjectFrame {
         this.textMgr.removeText('#description-header');
         this.textMgr.removeText('#description-content');
         this.container.style.setProperty('--contentWidth', `0vw`);
-        this.container.style.opacity = 0
+        this.container.style.opacity = 0;
         this.frame.style.setProperty('--gapX', `0px`);
         this.frame.style.setProperty('--gapY', `0px`);
 
@@ -96,44 +108,35 @@ export default class ObjectFrame {
         // Approach 1: Two tweens, one that goes to the current position, then another that goes to the final position
         //  while the lookAt always smoothly follows the target
         // TODO: THIS CAN SHOW SOME WEIRD BEHAVIOR LIKE GOING THROUGH OBJECTS, THE TARGETING NEEDS SOME LOGIC FOR FOLLOWING LINE OF SIGHT TO GET CLOSE ENOUGH
-        const t1 = new THREE.Vector3()
-        t1.add(this.focusedObject.object.position);
-        t1.add(this.focusedObject.info.cameraOffset);
+        // const t1 = new THREE.Vector3()
+        // t1.add(this.focusedObject.object.position);
+        // t1.add(this.focusedObject.info.cameraOffset);
         const gap = this.focusedObject.info.frameGap;
         this.sun.target.position.set(this.focusedObject.object.position.x, this.focusedObject.object.position.y, this.focusedObject.object.position.z);
-        gsap.to(this.camera.position, {
-            x: t1.x,
-            y: t1.y,
-            z: t1.z,
-            duration: 1.75,
-            ease: "sine.Out",
+        this.moving = true;
+        this.camControls.transitionCamera({
+            center: this.focusedObject.object.position,
+            distance: this.focusedObject.info.cameraDistance,
             onUpdate: () => {
-                this.sun.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+                this.camControls.copyCamPositionTo(this.sun.position);
             },
             onComplete: () => {
-                const t2 = new THREE.Vector3();
-                t2.add(this.focusedObject.object.position);
-                t2.add(this.focusedObject.info.cameraOffset);
-                gsap.to(this.camera.position, {
-                    x: t2.x,
-                    y: t2.y,
-                    z: t2.z,
-                    duration: 0.75,
-                    ease: "sine.inOut",
+                this.camControls.transitionCamera({
+                    center: this.focusedObject.object.position,
+                    distance: this.focusedObject.info.cameraDistance,
                     onUpdate: () => {
-                        this.sun.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+                        this.camControls.copyCamPositionTo(this.sun.position);
                     },
                     onComplete: () => {
                         this.updateDetails = this.tmpUpdateDetails;
                         this.sun.target.position.set(this.focusedObject.object.position.x, this.focusedObject.object.position.y, this.focusedObject.object.position.z);
                         this.frame.style.setProperty('--gapX', `${gap.x}vw`);
                         this.frame.style.setProperty('--gapY', `${gap.y}vh`);
-                        // this.fitObject(this.focusedObject.object);
+                        this.moving = false;
                     },
                 });
             }
-        });
-        
+        });        
     }
 
     computeDesiredPose(object, localOffset, outPos, outQuat) {
@@ -148,17 +151,9 @@ export default class ObjectFrame {
         outQuat.setFromRotationMatrix(m);
     }
 
-    update(dt) {
+    update() {
         if (this.focusedObject) {
-            // const x = this.focusedObject.object.position.x + this.focusedObject.info.cameraOffset.x;
-            // const y = this.focusedObject.object.position.y + this.focusedObject.info.cameraOffset.y;
-            // const z = this.focusedObject.object.position.z + this.focusedObject.info.cameraOffset.z;
-
-            // this.camX(x);
-            // this.camY(y);
-            // this.camZ(z);
-
-            this.camera.lookAt(this.focusedObject.object.position);
+            this.camControls.setCamLook(this.focusedObject.object.position);
         }
     }
 }

@@ -77,21 +77,76 @@
               <span id="description-content" class="baseText"></span>
             </div>
           </div>
-
+          <button id="description-toggle-button" class="baseText observed-item">-</button>
         </div>
 
         <!-- This dropdown will contain orbit adjustment controls -->
-        <div id="dropdown-container" class="dropdown-container hidden">
+        <div id="dropdown-container" class="dropdown-container">
           <div>
             <button id="controls-button" class="baseText observed-item">Orbit Controls</button>
           </div>
-          <div id="content-container" class="dropdown-content">
-            <div id="orbit-controls-container"><div style="position: absolute; inset: 0; background-color:red">TEST CONTROLS</div></div>
+          <div id="content-container" class="dropdown-content dropdown-content-closed">
+            <div style="margin: 10px; padding-left: 5px; border-left: solid 2px #c9ffd1;">
+              <div id="orbit-options-display" class="baseText">Visible Orbits</div>
+              <div id="orbit-options-container" style="display:flex; flex-direction: column;">
+              </div>
+            </div>
+
+            <div class="orbit-control-container">
+              <label for="Semimajor Axis" class="baseText"> Semimajor Axis (<i>a</i>):</label>
+              <div class="orbit-control-slider-container">
+                <span class="baseText orbit-control-slider-label">0</span>
+                <input class="orbit-control-slider" type="range" id="Semimajor Axis" name="Semimajor Axis" min="0.0" max="250.0" value="1.0" step="0.1">
+                <span id="a-max-label" class="baseText orbit-control-slider-label">250</span>
+                <span class="baseText orbit-control-slider-value" id="a-label">0</span>
+              </div>
+            </div>
+
+            <div class="orbit-control-container">
+              <label for="Inclination" class="baseText"> Inclination (<i>i</i>):</label>
+              <div class="orbit-control-slider-container">
+                <span class="baseText orbit-control-slider-label">0&deg;</span>
+                <input class="orbit-control-slider" type="range" id="Inclination" name="Inclination" min="0" max="90" value="10" step="0.1">
+                <span class="baseText orbit-control-slider-label">90&deg;</span>
+                <span class="baseText orbit-control-slider-value" id="i-label">0</span>
+              </div>
+            </div>
+
+            <div class="orbit-control-container">
+              <label for="inclination" class="baseText"> Eccentricity (<i>e</i>):</label>
+              <div class="orbit-control-slider-container">
+                <span class="baseText orbit-control-slider-label">0</span>
+                <input class="orbit-control-slider" type="range" id="Eccentricity" name="Eccentricity" min="0" max="1" value="0.2" step="0.01">
+                <span class="baseText orbit-control-slider-label">1</span>
+                <span class="baseText orbit-control-slider-value" id="e-label">0</span>
+              </div>
+            </div>
+
+            <div class="orbit-control-container">
+              <label for="Arguement of Periapsis" class="baseText"> Argument of Periapsis (<i>w</i>):</label>
+              <div class="orbit-control-slider-container">
+                <span class="baseText orbit-control-slider-label">0&deg;</span>
+                <input class="orbit-control-slider" type="range" id="Argument of Periapsis" name="Argument of Periapsis" min="0" max="360" value="10" step="0.1">
+                <span class="baseText orbit-control-slider-label">360&deg;</span>
+                <span class="baseText orbit-control-slider-value" id="w-label">0</span>
+              </div>
+            </div>
+
+            <div class="orbit-control-container">
+              <label for="Right Ascension of the Ascending Node" class="baseText"> Long. of the Ascending Node (<i>&Omega;</i>):</label>
+              <div class="orbit-control-slider-container">
+                <span class="baseText orbit-control-slider-label">0&deg;</span>
+                <input class="orbit-control-slider" type="range" id="Right Ascension of the Ascending Node" name="Right Ascension of the Ascending Node" min="0" max="360" value="10" step="0.1">
+                <span class="baseText orbit-control-slider-label">360&deg;</span>
+                <span class="baseText orbit-control-slider-value" id="raan-label">0</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
         <!-- Button to open the telemetry screen -->
-        <button id="toggle-tlm-button" class="baseText observed-item" style="position: fixed; top: 0; right: 0;">TELEMETRY</button>
+        <button id="toggle-tlm-button" class="baseText observed-item" style="position: fixed; top: 0; right: 0; pointer-events: auto;">TELEMETRY</button>
         
         
         <!-- Tabs anchored to the bottom left -->
