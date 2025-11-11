@@ -44,8 +44,8 @@ export default class GalaxyScene {
         this.framer = new ObjectFrame(this.camera.getCamera(), this.lighting.getSun());
         this.headRotationSpeed = new THREE.Vector3(0, 8, 0);
         this.objects = [];
-        this.tabManager = new ObjectTabManager(this.framer);
         this.dropdownManager = new DropdownManager();
+        this.tabManager = new ObjectTabManager(this.framer, this.dropdownManager);
         this.tlm = new Telemetry();
 
         this.DEG2RAD = 3.1415 / 180;
@@ -192,6 +192,7 @@ export default class GalaxyScene {
         this.tabManager.SetSystem(this.dean);
         this.tabManager.SetPlanets(this.dean.info.children);
         this.dropdownManager.setFocusedObject(this.dean);
+        this.dropdownManager.setAvailableOrbits(this.dean.info.children);
         this.tlm.buildNavigation(this.dean);
         //=================================================================
 
@@ -226,6 +227,7 @@ export default class GalaxyScene {
 
         // const tex = this.loader.loadCubeTexture('skybox');
         // tex.minFilter = LinearFilter;
+        // tex.
         // this.scene.background = this.loader.loadCubeTexture('skybox');
         // this.scene.background = new Color(0x00061a);
         this.scene.background = new THREE.Color(0x242424);

@@ -5,7 +5,7 @@ import {Vector3, Vector2} from 'three'
 export default class WorkPlanet extends OrbitingObject {
     // Define all object information here!
     constructor(orbitTarget) {
-        const i = 90;
+        const i = 0;
         const w = 45;
         const params = new OrbitParams({
             inclination: i * (Math.PI / 180),
@@ -26,6 +26,7 @@ export default class WorkPlanet extends OrbitingObject {
             cameraOffset: new Vector3(-15, 15, 20),
             effectiveDelta: 0.5,
             frameGap: new Vector2(20, 35),
+            childrenMaxSemimajor: 35,
         });
 
         super(orbitTarget, info, params);

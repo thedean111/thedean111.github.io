@@ -32,6 +32,7 @@ export class ObjectInformation {
         galleryName="",
         trailColor=0x0000ff,
         trailWidth=2,
+        childrenMaxSemimajor=0,
     } = {}) {
         this.tabLabel = tabLabel;
         this.header = header;
@@ -50,6 +51,7 @@ export class ObjectInformation {
         this.summary = summary;
         this.trailColor = trailColor;
         this.trailWidth = trailWidth;
+        this.childrenMaxSemimajor = childrenMaxSemimajor;
     }
 }
 
@@ -62,10 +64,9 @@ export class OrbitingObject {
         this.object = null;
         this.DEG2RAD = 3.1415 / 180;
         this.R = [];
-        this.minRadius = Infinity;
-        this.maxRadius = -Infinity;
         this.deltaScale = objectInfo.effectiveDelta;
         this.updateTrail = false;
+        this.updateTrailRecompute = false;
         let off = new Vector3();
         if (orbitObj) {
             off = orbitObj.position;
@@ -101,8 +102,8 @@ export class OrbitingObject {
     }
 
     Update(deltaTime) {
-        if (this.updateTrail) {
-            this.trail.update(this.orbitObj.position);
+        if (this.updateTrail || this.updateTrailRecompute) {
+            this.trail.update(this.orbitObj.position, this.updateTrailRecompute);
         }
         this.object.rotation.y += 8 * deltaTime * this.DEG2RAD;
         this.UpdateRelativePosition();
@@ -111,15 +112,16 @@ export class OrbitingObject {
     // Manually update the true anomaly instead of solving Kepler's equation
     // Radius dependent so the object moves faster at periapsis
     // Kepler orbits determine that speed is inversely proportional to the radius squared
-    UpdateTrueAnomaly(r) {
+    UpdateTrueAnomaly() {
         let delta = 1;
-        if (this.minRadius != Infinity && this.maxRadius != -Infinity && this.minRadius != this.maxRadius) {
-            const invMin = 1 / (this.maxRadius * this.maxRadius); // slowest at apoapsis
-            const invMax = 1 / (this.minRadius * this.minRadius); // fastest at periapsis
-            const invR = 1 / (r * r);
-            const t = (invR - invMin) / (invMax - invMin);
-            delta = 0.4 + t * (1.0 - 0.4);
-        }
+        const periapsis = this.params.semimajorAxis * (1 - this.params.eccentricity);
+        const apoapsis = this.params.semimajorAxis * (1 + this.params.eccentricity);
+
+        const invMin = 1 / (apoapsis * apoapsis); // slowest at apoapsis
+        const invMax = 1 / (periapsis * periapsis); // fastest at periapsis
+        const invR = 1 / (this.currentRadius * this.currentRadius);
+        const t = (invR - invMin) / (invMax - invMin);
+        delta = 0.4 + t * (1.0 - 0.4);
 
         this.params.trueAnomaly += delta * this.deltaScale * (Math.PI / 180);
         this.params.trueAnomaly %= (2 * Math.PI);
@@ -132,15 +134,11 @@ export class OrbitingObject {
         }
 
         // Update the true anomaly based on the current distance from the focus
-        this.UpdateTrueAnomaly(this.currentRadius);
+        this.UpdateTrueAnomaly();
 
         // Static helper to get the inertial position and radius
         const inertialPosition = OrbitComputer.getInertialPosition(this.params);
         this.currentRadius = inertialPosition[3];
-
-        // Update the min and max radius for the true anomaly simulation
-        if (this.currentRadius > this.maxRadius) { this.maxRadius = this.currentRadius; }
-        if (this.currentRadius < this.minRadius) { this.minRadius = this.currentRadius; }
 
         // Offset the inertial position by the world position of the center body
         this.object.position.x = inertialPosition[0] + this.orbitObj.position.x;

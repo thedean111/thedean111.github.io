@@ -1,7 +1,7 @@
 import {gsap} from 'gsap'
 
 export default class ObjectTabManager {
-    constructor(frame) {
+    constructor(frame, orbitControls) {
         this.systemBtn = document.getElementById("system-button")
         this.planetContainer = document.getElementById("planet-container");
         this.moonContainer = document.getElementById("moon-container");
@@ -12,6 +12,7 @@ export default class ObjectTabManager {
         this.selectedMoonObj = null;
         this.moonContainer.style.opacity = 0;
         this.systemObj = null;
+        this.orbitControls = orbitControls;
         
         // These are just for easy iterating
         this.planets = [];
@@ -26,6 +27,7 @@ export default class ObjectTabManager {
         this.systemBtn.addEventListener('click', () => {
             this.frame.updateDetails = true;
             this.frame.setFocus(this.systemObj);
+            this.orbitControls.setAvailableOrbits(this.systemObj.info.children, this.systemObj.info.childrenMaxSemimajor);
 
             /* 
             When clicking on the head:
@@ -120,6 +122,7 @@ export default class ObjectTabManager {
                 btn.classList.add('selected-button');
                 this.selectedPlanet = btn;
                 this.selectedPlanetObj = p;
+                this.orbitControls.setAvailableOrbits(p.info.children, p.info.childrenMaxSemimajor);
                 p.FadeTrail(0);
 
 
@@ -187,6 +190,7 @@ export default class ObjectTabManager {
                 this.selectedMoon = btn;
                 this.selectedMoonObj = m;
                 m.FadeTrail(0);
+                this.orbitControls.setAvailableOrbits(m.info.children, m.info.childrenMaxSemimajor);
 
                 // No planets should be visible
                 this.planets.forEach(c => {

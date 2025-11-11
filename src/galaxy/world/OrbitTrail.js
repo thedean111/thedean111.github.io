@@ -54,6 +54,10 @@ export default class OrbitTrail {
 
     // All points in the trail need to be updated with the central body's position
     update(offset, recomputeOrbit = false) {
+        if (recomputeOrbit) {
+            this.computeTrail();
+        }
+        
         const relativePoints = [];
         for (let i = 0; i < this.points.length; i++) {
             relativePoints.push(new THREE.Vector3(

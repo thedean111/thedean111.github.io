@@ -17,6 +17,7 @@ export default class Dean extends OrbitingObject {
             cameraOffset: new Vector3(-50, 120, 400),
             scale: new Vector3(6, 6, 6),
             frameGap: new Vector2(10, 25),
+            childrenMaxSemimajor: 250,
         });
 
         super(orbitTarget, info, params);
